@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Completar Reserva</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#F1F5F9;
+    text-align:center;
+    padding:40px;
+}
+
+.box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    max-width:400px;
+    margin:auto;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+h2{
+    margin-bottom:10px;
+}
+
+#fecha{
+    margin-bottom:20px;
+    font-weight:bold;
+    color:#1E3A8A;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#1E3A8A;
+    color:white;
+    cursor:pointer;
+    width:100%;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#163075;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Completa tu reserva 🚗</h2>
+
+<p id="fecha"></p>
+
+<input id="nombre" placeholder="Nombre">
+<input id="apellido" placeholder="Apellido">
+<input id="correo" placeholder="Correo">
+<input id="telefono" placeholder="Teléfono">
+
+<select id="pago">
+<option>Pago en local</option>
+<option>Transferencia</option>
+<option>Tarjeta</option>
+</select>
+
+<button onclick="finalizar()">Finalizar reserva</button>
+
+</div>
+
+<script>
+let dia = localStorage.getItem("dia");
+let mes = localStorage.getItem("mes");
+let hora = localStorage.getItem("hora");
+
+/* mostrar fecha */
+document.getElementById("fecha").innerText =
+"📅 " + dia + " de " + mes + " a las " + hora;
+
+/* validar y finalizar */
+localStorage.clear();
+function finalizar(){
+
+let nombre = document.getElementById("nombre").value.trim();
+let apellido = document.getElementById("apellido").value.trim();
+let correo = document.getElementById("correo").value.trim();
+let telefono = document.getElementById("telefono").value.trim();
+
+if(!nombre || !apellido || !correo || !telefono){
+    alert("❌ Completa todos los campos");
+    return;
+}
+
+/* mensaje final bonito */
+document.querySelector(".box").innerHTML = `
+<h2>✅ Reserva confirmada</h2>
+<p><strong>${nombre} ${apellido}</strong></p>
+<p>📅 ${dia} de ${mes}</p>
+<p>⏰ ${hora}</p>
+<p>🚗 Te esperamos en Brillo y Esplendor</p>
+`;
+}
+</script>
+
+</body>
+</html>

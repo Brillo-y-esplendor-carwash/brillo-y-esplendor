@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Brillo y Esplendor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #F1F5F9;
+}
+
+/* HEADER */
+header {
+    background: #1E3A8A;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 65px;
+}
+
+.nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    color: #38BDF8;
+}
+
+/* SLIDER */
+.slider {
+    width: 85%;
+    max-width: 900px;
+    aspect-ratio: 2/1;
+    margin: 30px auto;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.dots {
+    text-align: center;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background: #1E3A8A;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+}
+
+/* BOTON RESERVA */
+.reserva-btn {
+    display: block;
+    margin: 30px auto;
+    background: #38BDF8;
+    color: white;
+    padding: 20px 40px; /* más grande */
+    border: none;
+    border-radius: 12px;
+    font-size: 20px; /* más grande */
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* SECTIONS */
+.section {
+    padding: 40px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.section:hover {
+    transform: scale(1.03);
+}
+
+/* TABLE */
+table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    border-radius: 10px;
+}
+
+th {
+    background: #1E3A8A;
+    color: white;
+}
+
+td, th {
+    padding: 12px;
+}
+
+tr:nth-child(even) {
+    background: #F8FAFC;
+}
+
+/* RESERVA BOX */
+#reservaBox {
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    width:300px;
+    text-align:center;
+}
+
+/* FOOTER */
+footer {
+    background:#1E3A8A;
+    color:white;
+    padding:30px;
+    text-align:center;
+}
+
+/* CHAT */
+.chat-small {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.chat-bubble-icon {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #38BDF8;
+    color: white;
+    padding: 25px;
+    font-size: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.chat-box {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    height: 420px;
+    background: white;
+    border-radius: 15px;
+    display: none;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: #1E3A8A;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.message {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.user { background: #1E3A8A; color: white; text-align: right; }
+.bot { background: #E2E8F0; }
+
+.chat-input {
+    display: flex;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+}
+
+@media (max-width: 600px){
+
+.reserva-btn{
+    width:90%;
+}
+
+.section{
+    padding:20px;
+}
+
+#reservaBox{
+    width:90%;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.slider{
+    width:95%;
+}
+
+.chat-box{
+    width:90%;
+    right:5%;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<img src="logo.png" style="height:60px;">
+</div>
+
+<div class="nav">
+<a href="#" onclick="irA('horario')">Horarios</a>
+<a href="#" onclick="irA('precios')">Precios</a>
+<a href="#" onclick="abrirReserva()">Reservar</a>
+<a href="#" onclick="irA('nosotros')">¿Quiénes somos?</a>
+</div>
+</header>
+
+<div class="slider">
+<img src="slide1.jpg" class="slide active">
+<img src="slide2.jpg" class="slide">
+<img src="slide3.jpg" class="slide">
+</div>
+
+<div class="dots">
+<span class="dot" onclick="showSlide(0)"></span>
+<span class="dot" onclick="showSlide(1)"></span>
+<span class="dot" onclick="showSlide(2)"></span>
+</div>
+
+<button class="reserva-btn" onclick="abrirReserva()">Reservar hora 🚗</button>
+
+<div class="section">
+<div style="background:#C7D2FE;padding:25px;border-radius:15px;max-width:600px;margin:auto;">
+
+<h1>Brillo y Esplendor 🚗✨</h1>
+<p>✨ Brillo y Esplendor, solución digital para el cuidado de tu vehículo</p>
+
+</div>
+</div>
+
+<div class="section" id="precios">
+<h2>Precios</h2>
+<table>
+<tr>
+<th>Servicio</th>
+<th>Descripción</th>
+<th>🚗<br><small>(citycar)</small></th>
+<th>🚙<br><small>(sedán)</small></th>
+<th>🚐<br><small>(SUV / camioneta)</small></th>
+</tr>
+<tr><td>Básico</td><td>Lavado exterior</td><td>$8.000</td><td>$10.000</td><td>$12.000</td></tr>
+<tr><td>Premium</td><td>Interior + exterior</td><td>$15.000</td><td>$18.000</td><td>$22.000</td></tr>
+<tr><td>Completo</td><td>Detalle total</td><td>$30.000</td><td>$35.000</td><td>$45.000</td></tr>
+</table>
+</div>
+
+<div class="section" id="horario">
+<div style="background:#DCFCE7;padding:25px;border-radius:15px;max-width:600px;margin:auto;">
+
+<h2>Horario</h2>
+<p>Lunes a sábado 9:00 - 18:00</p>
+
+</div>
+</div>
+
+<div class="section" id="nosotros" style="max-width:900px;margin:auto;">
+<div style="background:#FEF3C7;padding:25px;border-radius:15px;text-align:left;">
+
+<h2>¿Quiénes somos?</h2>
+
+<p><strong>Brillo y Esplendor</strong> es un autolavado enfocado en ofrecer un servicio de alta calidad, combinando limpieza profesional con una atención cercana y confiable.</p>
+
+<p>Nuestro compromiso es que cada vehículo quede en óptimas condiciones, cuidando cada detalle tanto en el interior como en el exterior.</p>
+
+<p>Además, entendiendo la creciente necesidad de soluciones digitales, desarrollamos esta plataforma para facilitar la experiencia de nuestros clientes, permitiendo consultar servicios, precios y realizar reservas de manera rápida y sencilla.</p>
+
+<p>✨ <strong>Brillo y Esplendor, solución digital para el cuidado de tu vehículo.</strong></p>
+
+</div>
+</div>
+
+<footer>
+<p>brilloyesplendorcarwash@gmail.com</p>
+<p>© 2026 Brillo y Esplendor</p>
+</footer>
+
+<!-- RESERVA -->
+<div id="reservaBox">
+
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<h3>Reservar hora 🚗</h3>
+<button onclick="cerrarReserva()" style="background:red;color:white;border:none;border-radius:8px;padding:5px 10px;">X</button>
+</div>
+
+<p><strong>Selecciona fecha:</strong></p>
+
+<div style="display:flex; gap:10px; justify-content:center;">
+
+<select id="dia">
+<option>1</option><option>2</option><option>3</option><option>4</option>
+<option>5</option><option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option><option>11</option><option>12</option>
+<option>13</option><option>14</option><option>15</option><option>16</option>
+<option>17</option><option>18</option><option>19</option><option>20</option>
+<option>21</option><option>22</option><option>23</option><option>24</option>
+<option>25</option><option>26</option><option>27</option><option>28</option>
+<option>29</option><option>30</option><option>31</option>
+</select>
+
+<select id="mes" onchange="actualizarDias()">
+<option>Enero</option>
+<option>Febrero</option>
+<option>Marzo</option>
+<option>Abril</option>
+<option>Mayo</option>
+<option>Junio</option>
+<option>Julio</option>
+<option>Agosto</option>
+<option>Septiembre</option>
+<option>Octubre</option>
+<option>Noviembre</option>
+<option>Diciembre</option>
+</select>
+
+<select id="hora">
+<option>09:00</option>
+<option>10:00</option>
+<option>11:00</option>
+<option>12:00</option>
+<option>13:00</option>
+<option>14:00</option>
+<option>15:00</option>
+<option>16:00</option>
+<option>17:00</option>
+<option>18:00</option>
+</select>
+
+</div>
+
+<br>
+
+<button onclick="confirmarReserva()">Confirmar</button>
+<button onclick="cerrarReserva()">Cancelar</button>
+
+</div>
+
+<!-- CHAT -->
+<div class="chat-small" onclick="openChat()">¿Necesitas ayuda?</div>
+<div class="chat-bubble-icon" onclick="restoreChat()">💬</div>
+
+<div class="chat-box" id="chatBox">
+<div class="chat-header">
+<span>Chat IA</span>
+<button onclick="minimizeChat()">X</button>
+</div>
+<div class="chat-messages" id="chatMessages"></div>
+<div class="chat-input">
+<input id="userInput">
+<button onclick="sendMessage()">Enviar</button>
+</div>
+</div>
+
+<script>
+function actualizarDias(){
+
+    let mes = document.getElementById("mes").value;
+    let diaSelect = document.getElementById("dia");
+
+    let dias = 31;
+
+    if(mes === "Abril" || mes === "Junio" || mes === "Septiembre" || mes === "Noviembre"){
+        dias = 30;
+    }
+
+    if(mes === "Febrero"){
+        dias = 28;
+    }
+
+    diaSelect.innerHTML = "";
+
+    for(let i=1; i<=dias; i++){
+        let option = document.createElement("option");
+        option.text = i;
+        diaSelect.add(option);
+    }
+}
+function abrirReserva(){document.getElementById("reservaBox").style.display="block";}
+function cerrarReserva(){document.getElementById("reservaBox").style.display="none";}
+function confirmarReserva(){
+let dia=document.getElementById("dia").value;
+let mes=document.getElementById("mes").value;
+let hora=document.getElementById("hora").value;
+
+
+
+/* guardamos datos */
+localStorage.setItem("dia", dia);
+localStorage.setItem("mes", mes);
+localStorage.setItem("hora", hora);
+
+/* redirigir */
+window.location.href = "reserva-datos.html";
+}
+
+let slides=document.querySelectorAll(".slide");
+let index=0;
+function showSlide(i){slides[index].classList.remove("active");index=i;slides[index].classList.add("active");}
+setInterval(()=>{showSlide((index+1)%slides.length)},3000);
+
+/* CHAT */
+function openChat(){
+document.querySelector(".chat-small").style.display="none";
+document.getElementById("chatBox").style.display="flex";
+}
+function minimizeChat(){
+document.getElementById("chatBox").style.display="none";
+
+document.querySelector(".chat-small").style.display="none";
+
+let bubble = document.querySelector(".chat-bubble-icon");
+bubble.style.display="block";
+
+setTimeout(()=>{
+bubble.style.display="none";
+document.querySelector(".chat-small").style.display="block";
+}, 4000);
+}
+
+function restoreChat(){
+document.querySelector(".chat-bubble-icon").style.display="none";
+document.getElementById("chatBox").style.display="flex";
+}
+
+function sendMessage(){
+let input = document.getElementById("userInput");
+let msg = input.value.toLowerCase().trim();
+if(msg==="") return;
+
+addMessage(input.value,"user");
+input.value="";
+
+process(msg);
+}
+
+let estadoChat = null;
+let reservaData = {};
+
+function process(msg){
+
+if(
+    msg.includes("hola") ||
+    msg.includes("cancelar") ||
+    msg.includes("salir")
+){
+    estadoChat = null;
+}
+
+/* INICIAR RESERVA */
+if(
+    msg.includes("reserv") ||
+    msg.includes("agend") ||
+    msg.includes("quiero una hora")
+){
+    estadoChat = "dia";
+    reply("Perfecto 👍 ¿Qué día quieres reservar?");
+    return;
+}
+
+/* FLUJO RESERVA */
+if(estadoChat === "dia"){
+
+    let match = msg.match(/\d+/);
+    let numero = match ? parseInt(match[0]) : NaN;
+
+    let mes = null;
+
+    if(msg.includes("enero")) mes = 1;
+    if(msg.includes("febrero")) mes = 2;
+    if(msg.includes("marzo")) mes = 3;
+    if(msg.includes("abril")) mes = 4;
+    if(msg.includes("mayo")) mes = 5;
+    if(msg.includes("junio")) mes = 6;
+    if(msg.includes("julio")) mes = 7;
+    if(msg.includes("agosto")) mes = 8;
+    if(msg.includes("septiembre")) mes = 9;
+    if(msg.includes("octubre")) mes = 10;
+    if(msg.includes("noviembre")) mes = 11;
+    if(msg.includes("diciembre")) mes = 12;
+
+    // si no dice mes, usamos el actual
+    if(!mes){
+        mes = new Date().getMonth() + 1;
+    }
+
+    let maxDias = 31;
+    if([4,6,9,11].includes(mes)) maxDias = 30;
+    if(mes === 2) maxDias = 28;
+
+    if(isNaN(numero) || numero < 1 || numero > maxDias){
+        reply("❌ Ese día no es válido para ese mes");
+        return;
+    }
+
+    reservaData.dia = numero;
+    reservaData.mes = mes;
+
+    estadoChat = "hora";
+    reply("Genial 😊 ¿A qué hora?");
+    return;
+}
+
+if(estadoChat === "hora"){
+
+    let hora = msg.replace("a las", "").trim();
+
+    reservaData.hora = hora;
+    estadoChat = "nombre";
+    reply("Perfecto 👌 ¿Cuál es tu nombre?");
+    return;
+}
+
+if(estadoChat === "nombre"){
+reservaData.nombre = msg;
+estadoChat = "confirmar";
+let mesesTexto = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+reply("Listo 🎉 Reserva para el "+reservaData.dia+" de "+mesesTexto[reservaData.mes-1]+" a las "+reservaData.hora+" a nombre de "+reservaData.nombre+". ¿Confirmas? (si/no)");
+return;
+}
+
+if(estadoChat === "confirmar"){
+if(msg.includes("si")){
+reply("✅ Reserva confirmada, te esperamos 🚗✨");
+}else{
+reply("❌ Reserva cancelada");
+}
+estadoChat = null;
+return;
+}
+
+/* RESTO NORMAL */
+
+/* SALUDOS */
+if(msg.includes("hola") || msg.includes("buenas")){
+reply("¡Hola! 👋 Bienvenido a Brillo y Esplendor, ¿en qué puedo ayudarte?");
+return;
+}
+
+/* HORARIO */
+if(msg.includes("horario") || msg.includes("abren") || msg.includes("atienden")){
+reply("Atendemos de lunes a sábado de 9:00 a 18:00 ⏰");
+return;
+}
+
+/* PRECIOS */
+if(msg.includes("precio") || msg.includes("cuanto")){
+reply("Claro 😊 ¿Tu vehículo es pequeño 🚗, mediano 🚙 o grande 🚐?");
+return;
+}
+
+/* TAMAÑOS */
+if(msg.includes("peque")){
+reply("Autos pequeños 🚗:\nBásico: $8.000\nPremium: $15.000\nCompleto: $30.000");
+return;
+}
+
+if(msg.includes("mediano")){
+reply("Autos medianos 🚙:\nBásico: $10.000\nPremium: $18.000\nCompleto: $35.000");
+return;
+}
+
+if(msg.includes("grande") || msg.includes("camioneta")){
+reply("Vehículos grandes 🚐:\nBásico: $12.000\nPremium: $22.000\nCompleto: $45.000");
+return;
+}
+
+reply("🤔 No entendí bien. Puedes preguntarme por precios, horarios o escribir 'reservar' para agendar una hora.");
+}
+function addMessage(text,type){
+    let div=document.createElement("div");
+    div.classList.add("message",type);
+    div.innerText=text;
+
+    let chat = document.getElementById("chatMessages");
+    chat.appendChild(div);
+
+    /* AUTO SCROLL 👇 */
+    chat.scrollTop = chat.scrollHeight;
+}
+function reply(t){setTimeout(()=>addMessage(t,"bot"),500);}
+
+/* ENVIAR MENSAJE CON ENTER */
+window.onload = function(){
+
+    actualizarDias();
+
+    document.getElementById("userInput").addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+            sendMessage();
+        }
+    });
+
+}
+
+/* SCROLL SUAVE REAL */
+function irA(id){
+    document.getElementById(id).scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+</script>
+
+</body>
+</html>
+
+
