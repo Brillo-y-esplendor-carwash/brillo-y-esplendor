@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Completar Reserva</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Completa tu reserva 🚗</h2>
+
+        <p id="fecha"></p>
+
+        <input id="nombre" placeholder="Nombre">
+        <input id="apellido" placeholder="Apellido">
+        <input id="correo" placeholder="Correo">
+        <input id="telefono" placeholder="Teléfono">
+
+        <select id="pago">
+            <option>Pago en local</option>
+            <option>Transferencia</option>
+            <option>Tarjeta</option>
+        </select>
+
+        <button onclick="finalizar()">Finalizar reserva</button>
+
+    </div>
+
+    <script src="js/reserva-datos.js"></script>
+
+</body>
+</html>

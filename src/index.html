@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Brillo y Esplendor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" style="height:60px;">
+        </div>
+        <div class="nav">
+            <a href="#" onclick="irA('horario')">Horarios</a>
+            <a href="#" onclick="irA('precios')">Precios</a>
+            <a href="#" onclick="abrirReserva()">Reservar</a>
+            <a href="#" onclick="irA('nosotros')">¿Quiénes somos?</a>
+        </div>
+    </header>
+
+    <!-- SLIDER -->
+    <div class="slider">
+        <img src="assets/slide1.jpg" class="slide active">
+        <img src="assets/slide2.jpg" class="slide">
+        <img src="assets/slide3.jpg" class="slide">
+    </div>
+
+    <div class="dots">
+        <span class="dot" onclick="showSlide(0)"></span>
+        <span class="dot" onclick="showSlide(1)"></span>
+        <span class="dot" onclick="showSlide(2)"></span>
+    </div>
+
+    <!-- BOTÓN RESERVA -->
+    <button class="reserva-btn" onclick="abrirReserva()">Reservar hora 🚗</button>
+
+    <!-- SECCIÓN INICIO -->
+    <div class="section">
+        <div style="background:#C7D2FE;padding:25px;border-radius:15px;max-width:600px;margin:auto;">
+            <h1>Brillo y Esplendor 🚗✨</h1>
+            <p>✨ Brillo y Esplendor, solución digital para el cuidado de tu vehículo</p>
+        </div>
+    </div>
+
+    <!-- PRECIOS -->
+    <div class="section" id="precios">
+        <h2>Precios</h2>
+        <table>
+            <tr>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>🚗<br><small>(citycar)</small></th>
+                <th>🚙<br><small>(sedán)</small></th>
+                <th>🚐<br><small>(SUV / camioneta)</small></th>
+            </tr>
+            <tr><td>Básico</td><td>Lavado exterior</td><td>$8.000</td><td>$10.000</td><td>$12.000</td></tr>
+            <tr><td>Premium</td><td>Interior + exterior</td><td>$15.000</td><td>$18.000</td><td>$22.000</td></tr>
+            <tr><td>Completo</td><td>Detalle total</td><td>$30.000</td><td>$35.000</td><td>$45.000</td></tr>
+        </table>
+    </div>
+
+    <!-- HORARIO -->
+    <div class="section" id="horario">
+        <div style="background:#DCFCE7;padding:25px;border-radius:15px;max-width:600px;margin:auto;">
+            <h2>Horario</h2>
+            <p>Lunes a sábado 9:00 - 18:00</p>
+        </div>
+    </div>
+
+    <!-- QUIÉNES SOMOS -->
+    <div class="section" id="nosotros" style="max-width:900px;margin:auto;">
+        <div style="background:#FEF3C7;padding:25px;border-radius:15px;text-align:left;">
+            <h2>¿Quiénes somos?</h2>
+            <p><strong>Brillo y Esplendor</strong> es un autolavado enfocado en ofrecer un servicio de alta calidad, combinando limpieza profesional con una atención cercana y confiable.</p>
+            <p>Nuestro compromiso es que cada vehículo quede en óptimas condiciones, cuidando cada detalle tanto en el interior como en el exterior.</p>
+            <p>Además, entendiendo la creciente necesidad de soluciones digitales, desarrollamos esta plataforma para facilitar la experiencia de nuestros clientes, permitiendo consultar servicios, precios y realizar reservas de manera rápida y sencilla.</p>
+            <p>✨ <strong>Brillo y Esplendor, solución digital para el cuidado de tu vehículo.</strong></p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>contacto@brilloyesplendor.cl</p>
+        <p>© 2026 Brillo y Esplendor</p>
+    </footer>
+
+    <!-- RESERVA BOX -->
+    <div id="reservaBox">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3>Reservar hora 🚗</h3>
+            <button onclick="cerrarReserva()" style="background:red;color:white;border:none;border-radius:8px;padding:5px 10px;">X</button>
+        </div>
+
+        <p><strong>Selecciona fecha:</strong></p>
+
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <select id="dia"></select>
+
+            <select id="mes" onchange="actualizarDias()">
+                <option>Enero</option><option>Febrero</option><option>Marzo</option>
+                <option>Abril</option><option>Mayo</option><option>Junio</option>
+                <option>Julio</option><option>Agosto</option><option>Septiembre</option>
+                <option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
+            </select>
+
+            <select id="hora">
+                <option>09:00</option><option>10:00</option><option>11:00</option>
+                <option>12:00</option><option>13:00</option><option>14:00</option>
+                <option>15:00</option><option>16:00</option><option>17:00</option>
+                <option>18:00</option>
+            </select>
+        </div>
+
+        <br>
+        <button onclick="confirmarReserva()">Confirmar</button>
+        <button onclick="cerrarReserva()">Cancelar</button>
+    </div>
+
+    <!-- CHAT -->
+    <div class="chat-small" onclick="openChat()">¿Necesitas ayuda?</div>
+    <div class="chat-bubble-icon" onclick="restoreChat()">💬</div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <span>Chat IA</span>
+            <button onclick="minimizeChat()">X</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input id="userInput">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
