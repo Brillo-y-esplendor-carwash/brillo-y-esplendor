@@ -27,7 +27,7 @@ function confirmarReserva() {
     localStorage.setItem("mes", mes);
     localStorage.setItem("hora", hora);
 
-    window.location.href = "reserva-datos.html";
+    window.location.href = "reserva-vehiculo.html";
 }
 
 function irA(id) {

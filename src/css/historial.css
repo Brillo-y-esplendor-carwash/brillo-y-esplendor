@@ -1,0 +1,130 @@
+body {
+    font-family: Arial;
+    background: #F1F5F9;
+    padding: 30px;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.header-bar h2 {
+    margin: 0;
+    color: #1E3A8A;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-exportar { background: #1E3A8A; color: white; }
+.btn-exportar:hover { background: #163075; }
+
+.btn-limpiar { background: #EF4444; color: white; }
+.btn-limpiar:hover { background: #DC2626; }
+
+.btn-volver { background: #94A3B8; color: white; }
+.btn-volver:hover { background: #64748B; }
+
+/* RESUMEN */
+.resumen-card {
+    background: #1E3A8A;
+    color: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    display: flex;
+    gap: 40px;
+    margin-bottom: 25px;
+}
+
+.resumen-card div {
+    display: flex;
+    flex-direction: column;
+}
+
+.resumen-card span {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.resumen-card strong {
+    font-size: 26px;
+}
+
+/* TARJETAS */
+.card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background: #EFF6FF;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nombre {
+    font-weight: bold;
+    color: #1E3A8A;
+    font-size: 16px;
+}
+
+.precio {
+    font-weight: bold;
+    color: #16A34A;
+    font-size: 18px;
+}
+
+.card-body {
+    padding: 12px 20px;
+}
+
+.card-body p {
+    margin: 4px 0;
+    color: #444;
+    font-size: 14px;
+}
+
+.fecha-registro {
+    color: #94A3B8 !important;
+    font-size: 12px !important;
+    margin-top: 8px !important;
+}
+
+.vacio {
+    text-align: center;
+    color: #94A3B8;
+    font-size: 16px;
+    margin-top: 60px;
+}
+
+@media (max-width: 600px) {
+    .header-bar { flex-direction: column; align-items: flex-start; }
+    .resumen-card { flex-direction: column; gap: 15px; }
+}

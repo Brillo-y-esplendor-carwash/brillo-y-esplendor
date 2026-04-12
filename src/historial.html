@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Reservas</title>
+    <link rel="stylesheet" href="css/historial.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header-bar">
+            <h2>📋 Historial de Reservas</h2>
+            <div class="header-actions">
+                <button class="btn-exportar" onclick="exportarJSON()">⬇ Exportar JSON</button>
+                <button class="btn-limpiar" onclick="limpiarHistorial()">🗑 Limpiar</button>
+                <button class="btn-volver" onclick="window.location.href='./index.html'">← Volver</button>
+            </div>
+        </div>
+
+        <div class="resumen" id="resumen"></div>
+
+        <div id="lista"></div>
+
+    </div>
+
+    <script src="js/historial.js"></script>
+
+</body>
+</html>

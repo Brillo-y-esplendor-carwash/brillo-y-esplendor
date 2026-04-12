@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Servicio</title>
+    <link rel="stylesheet" href="css/reserva-vehiculo.css">
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Selecciona tu servicio 🚗</h2>
+        <p id="fecha-resumen"></p>
+
+        <label>Tipo de vehículo</label>
+        <select id="vehiculo">
+            <option value="citycar">🚗 Citycar / Auto pequeño</option>
+            <option value="sedan">🚙 Sedán / Auto mediano</option>
+            <option value="suv">🚐 SUV / Camioneta</option>
+        </select>
+
+        <label>Servicio</label>
+        <select id="servicio">
+            <option value="basico">Básico — Lavado exterior</option>
+            <option value="premium">Premium — Interior + exterior</option>
+            <option value="completo">Completo — Detalle total</option>
+        </select>
+
+        <div class="precio-box">
+            <p>Precio estimado:</p>
+            <h3 id="precio-display">$8.000</h3>
+        </div>
+
+        <button onclick="continuar()">Continuar →</button>
+        <button class="btn-cancelar" onclick="history.back()">← Volver</button>
+
+    </div>
+
+    <script src="js/reserva-vehiculo.js"></script>
+
+</body>
+</html>
