@@ -83,6 +83,37 @@ function sendMessage() {
 let estadoChat = null;
 let reservaData = {};
 
+const mesesTexto = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+    "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+/* ── GUARDAR RESERVA DEL CHAT EN EL SERVIDOR ── */
+async function guardarReservaChat() {
+    const reserva = {
+        fecha: reservaData.dia + " de " + mesesTexto[reservaData.mes - 1],
+        hora: reservaData.hora,
+        nombre: reservaData.nombre,
+        apellido: "",
+        correo: "",
+        telefono: "",
+        pago: "Por confirmar",
+        vehiculo: "Por confirmar",
+        servicio: "Por confirmar",
+        precio: 0,
+        fechaRegistro: new Date().toLocaleString("es-CL"),
+        origen: "Chat IA"
+    };
+
+    try {
+        await fetch("/api/reservas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reserva)
+        });
+    } catch (err) {
+        console.error("No se pudo guardar la reserva del chat:", err);
+    }
+}
+
 function process(msg) {
 
     if (msg.includes("hola") || msg.includes("cancelar") || msg.includes("salir")) {
@@ -129,7 +160,7 @@ function process(msg) {
         reservaData.dia = numero;
         reservaData.mes = mes;
         estadoChat = "hora";
-        reply("Genial 😊 ¿A qué hora?");
+        reply("Genial 😊 ¿A qué hora? (ej: 10:00)");
         return;
     }
 
@@ -144,8 +175,6 @@ function process(msg) {
     if (estadoChat === "nombre") {
         reservaData.nombre = msg;
         estadoChat = "confirmar";
-        let mesesTexto = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         reply("Listo 🎉 Reserva para el " + reservaData.dia + " de " + mesesTexto[reservaData.mes - 1] +
             " a las " + reservaData.hora + " a nombre de " + reservaData.nombre + ". ¿Confirmas? (si/no)");
         return;
@@ -153,6 +182,7 @@ function process(msg) {
 
     if (estadoChat === "confirmar") {
         if (msg.includes("si")) {
+            guardarReservaChat(); // ✅ guarda en el servidor
             reply("✅ Reserva confirmada, te esperamos 🚗✨");
         } else {
             reply("❌ Reserva cancelada");

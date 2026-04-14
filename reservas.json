@@ -1,0 +1,31 @@
+[
+  {
+    "fecha": "1 de Enero",
+    "hora": "09:00",
+    "nombre": "martin",
+    "apellido": "valderrama",
+    "correo": "martinvalderrama232@gmail.com",
+    "telefono": "+56985264711",
+    "pago": "Tarjeta",
+    "vehiculo": "🚙 Sedán",
+    "servicio": "Completo — Detalle total",
+    "precio": 35000,
+    "fechaRegistro": "14-04-2026, 12:27:03 a. m.",
+    "id": 1776140823923
+  },
+  {
+    "fecha": "5 de Agosto",
+    "hora": "11:30",
+    "nombre": "pedro",
+    "apellido": "",
+    "correo": "",
+    "telefono": "",
+    "pago": "Por confirmar",
+    "vehiculo": "Por confirmar",
+    "servicio": "Por confirmar",
+    "precio": 0,
+    "fechaRegistro": "14-04-2026, 12:28:05 a. m.",
+    "origen": "Chat IA",
+    "id": 1776140885510
+  }
+]

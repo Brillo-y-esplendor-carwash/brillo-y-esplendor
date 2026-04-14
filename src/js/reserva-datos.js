@@ -13,7 +13,7 @@ document.getElementById("fecha").innerText =
 document.getElementById("resumen-servicio").innerText =
     vehiculo + " · " + servicio + " · $" + parseInt(precio).toLocaleString("es-CL");
 
-function finalizar() {
+async function finalizar() {
     let nombre   = document.getElementById("nombre").value.trim();
     let apellido = document.getElementById("apellido").value.trim();
     let correo   = document.getElementById("correo").value.trim();
@@ -25,9 +25,7 @@ function finalizar() {
         return;
     }
 
-    // Construir objeto reserva
     const reserva = {
-        id: Date.now(),
         fecha: dia + " de " + mes,
         hora: hora,
         nombre: nombre,
@@ -41,25 +39,33 @@ function finalizar() {
         fechaRegistro: new Date().toLocaleString("es-CL")
     };
 
-    // Guardar en historial (array en localStorage)
-    let historial = JSON.parse(localStorage.getItem("historial") || "[]");
-    historial.push(reserva);
-    localStorage.setItem("historial", JSON.stringify(historial));
+    try {
+        const res = await fetch("/api/reservas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reserva)
+        });
 
-    // Limpiar datos temporales de la reserva actual
-    ["dia", "mes", "hora", "vehiculo", "servicio", "precio"].forEach(k =>
-        localStorage.removeItem(k)
-    );
+        if (!res.ok) throw new Error("Error al guardar");
 
-    // Mostrar confirmación
-    document.querySelector(".box").innerHTML = `
-        <h2>✅ Reserva confirmada</h2>
-        <p><strong>${nombre} ${apellido}</strong></p>
-        <p>📅 ${reserva.fecha} a las ${hora}</p>
-        <p>${vehiculo} · ${servicio}</p>
-        <p>💰 $${reserva.precio.toLocaleString("es-CL")} — ${pago}</p>
-        <p>🚗 Te esperamos en Brillo y Esplendor</p>
-        <br>
-        <button onclick="window.location.href='./index.html'">Volver al inicio</button>
-    `;
+        // Limpiar localStorage
+        ["dia", "mes", "hora", "vehiculo", "servicio", "precio"].forEach(k =>
+            localStorage.removeItem(k)
+        );
+
+        // Mostrar confirmación
+        document.querySelector(".box").innerHTML = `
+            <h2>✅ Reserva confirmada</h2>
+            <p><strong>${nombre} ${apellido}</strong></p>
+            <p>📅 ${reserva.fecha} a las ${hora}</p>
+            <p>${vehiculo} · ${servicio}</p>
+            <p>💰 $${reserva.precio.toLocaleString("es-CL")} — ${pago}</p>
+            <p>🚗 Te esperamos en Brillo y Esplendor</p>
+            <br>
+            <button onclick="window.location.href='./index.html'">Volver al inicio</button>
+        `;
+
+    } catch (err) {
+        alert("❌ No se pudo guardar la reserva. ¿Está corriendo el servidor?");
+    }
 }

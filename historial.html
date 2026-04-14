@@ -8,20 +8,45 @@
 
 <body>
 
-    <div class="container">
-
-        <div class="header-bar">
-            <h2>📋 Historial de Reservas</h2>
-            <div class="header-actions">
-                <button class="btn-exportar" onclick="exportarJSON()">⬇ Exportar JSON</button>
-                <button class="btn-limpiar" onclick="limpiarHistorial()">🗑 Limpiar</button>
-                <button class="btn-volver" onclick="window.location.href='./index.html'">← Volver</button>
-            </div>
+    <!-- LOGIN -->
+    <div id="loginBox">
+        <div class="login-card">
+            <h2>🔐 Acceso Admin</h2>
+            <p>Ingresa tus credenciales para continuar</p>
+            <input type="text" id="loginUser" placeholder="Usuario">
+            <input type="password" id="loginPass" placeholder="Contraseña">
+            <p id="loginError" class="error-msg" style="display:none;"></p>
+            <button onclick="login()">Entrar</button>
+            <button class="btn-volver-login" onclick="window.location.href='./index.html'">← Volver</button>
         </div>
+    </div>
 
-        <div class="resumen" id="resumen"></div>
+    <!-- DASHBOARD (oculto hasta login) -->
+    <div id="dashboard" style="display:none;">
 
-        <div id="lista"></div>
+        <div class="container">
+
+            <div class="header-bar">
+                <h2>📋 Historial de Reservas</h2>
+                <div class="header-actions">
+                    <button class="btn-limpiar" onclick="limpiarHistorial()">🗑 Limpiar</button>
+                    <button class="btn-cerrar" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+                    <button class="btn-volver" onclick="window.location.href='./index.html'">← Volver</button>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="filtros">
+                <input type="text" id="filtrNombre" placeholder="🔍 Buscar por nombre..." oninput="filtrar()">
+                <input type="text" id="filtrHora"   placeholder="⏰ Filtrar por hora (ej: 10:00)" oninput="filtrar()">
+                <input type="text" id="filtrFecha"  placeholder="📅 Filtrar por fecha (ej: 15 de Mayo)" oninput="filtrar()">
+                <button class="btn-limpiar-filtro" onclick="limpiarFiltros()">✖ Limpiar filtros</button>
+            </div>
+
+            <div class="resumen" id="resumen"></div>
+            <div id="lista"></div>
+
+        </div>
 
     </div>
 
