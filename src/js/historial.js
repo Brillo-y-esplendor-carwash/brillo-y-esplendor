@@ -1,4 +1,4 @@
-/* ── CREDENCIALES (cámbialas cuando quieras) ── */
+/* ── CREDENCIALES ─────────────────────────────── */
 const USUARIO = ["admin","martin","ezequiel"];
 const PASSWORD = "brillo2026";
 
@@ -26,7 +26,6 @@ function cerrarSesion() {
     document.getElementById("loginError").innerText = "";
 }
 
-// Login con Enter
 document.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && document.getElementById("loginBox").style.display !== "none") {
         login();
@@ -38,35 +37,78 @@ let historialCompleto = [];
 
 async function cargarHistorial() {
     const lista = document.getElementById("lista");
-    const resumen = document.getElementById("resumen");
 
     try {
-        const res = await fetch("/api/reservas");
-        historialCompleto = await res.json();
-        renderizar(historialCompleto);
+        // Cargar reservas activas y ganancias históricas en paralelo
+        const [resReservas, resGanancias] = await Promise.all([
+            fetch("/api/reservas"),
+            fetch("/api/ganancias")
+        ]);
+
+        historialCompleto = await resReservas.json();
+        const ganancias   = await resGanancias.json();
+
+        renderizarResumen(ganancias);
+        renderizarTarjetas(historialCompleto);
+
     } catch (err) {
         lista.innerHTML = `<p class="vacio">❌ No se pudo conectar al servidor.</p>`;
     }
 }
 
-/* ── RENDERIZAR TARJETAS ─────────────────────── */
-function renderizar(historial) {
-    const lista = document.getElementById("lista");
-    const resumen = document.getElementById("resumen");
-
-    if (historial.length === 0) {
-        lista.innerHTML = `<p class="vacio">No se encontraron reservas.</p>`;
-        resumen.innerHTML = "";
-        return;
-    }
-
-    const total = historial.reduce((acc, r) => acc + (r.precio || 0), 0);
-    resumen.innerHTML = `
+/* ── RESUMEN FIJO (ganancias históricas) ─────── */
+function renderizarResumen(ganancias) {
+    document.getElementById("resumen").innerHTML = `
         <div class="resumen-card">
-            <div><span>Total reservas</span><strong>${historial.length}</strong></div>
-            <div><span>Ingresos totales</span><strong>$${total.toLocaleString("es-CL")}</strong></div>
+            <div>
+                <span>Reservas totales atendidas</span>
+                <strong>${ganancias.totalReservas || 0}</strong>
+            </div>
+            <div>
+                <span>Ganancias totales</span>
+                <strong>$${(ganancias.total || 0).toLocaleString("es-CL")}</strong>
+            </div>
+            <div>
+                <span>Reservas pendientes</span>
+                <strong>${historialCompleto.length}</strong>
+            </div>
         </div>
     `;
+}
+
+/* ── ELIMINAR RESERVA ────────────────────────── */
+async function reservaLista(id) {
+    if (!confirm("¿Marcar esta reserva como lista y eliminarla?")) return;
+
+    try {
+        const res = await fetch(`/api/reservas/${id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error();
+
+        historialCompleto = historialCompleto.filter(r => r._id !== id);
+
+        // Actualizar solo el contador de pendientes en el resumen
+        const resGanancias = await fetch("/api/ganancias");
+        const ganancias = await resGanancias.json();
+        renderizarResumen(ganancias);
+        renderizarTarjetas(historialCompleto);
+
+    } catch (err) {
+        alert("❌ No se pudo eliminar la reserva.");
+    }
+}
+
+/* ── RENDERIZAR TARJETAS ─────────────────────── */
+function renderizar(historial) {
+    renderizarTarjetas(historial);
+}
+
+function renderizarTarjetas(historial) {
+    const lista = document.getElementById("lista");
+
+    if (historial.length === 0) {
+        lista.innerHTML = `<p class="vacio">No hay reservas pendientes.</p>`;
+        return;
+    }
 
     lista.innerHTML = [...historial].reverse().map(r => `
         <div class="card">
@@ -81,6 +123,9 @@ function renderizar(historial) {
                 ${r.correo ? `<p>📧 ${r.correo} · 📞 ${r.telefono}</p>` : ""}
                 ${r.origen ? `<p class="origen">📌 Origen: ${r.origen}</p>` : ""}
                 <p class="fecha-registro">Registrado: ${r.fechaRegistro}</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn-lista" onclick="reservaLista('${r._id}')">✅ Reserva lista</button>
             </div>
         </div>
     `).join("");
@@ -100,21 +145,25 @@ function filtrar() {
         return matchNombre && matchHora && matchFecha;
     });
 
-    renderizar(resultado);
+    renderizarTarjetas(resultado);
 }
 
 function limpiarFiltros() {
     document.getElementById("filtrNombre").value = "";
     document.getElementById("filtrHora").value = "";
     document.getElementById("filtrFecha").value = "";
-    renderizar(historialCompleto);
+    renderizarTarjetas(historialCompleto);
 }
 
-/* ── LIMPIAR HISTORIAL ───────────────────────── */
+/* ── LIMPIAR TODO ────────────────────────────── */
 async function limpiarHistorial() {
-    if (confirm("¿Seguro que quieres borrar todo el historial?")) {
+    if (confirm("¿Seguro que quieres borrar todo el historial pendiente?\nLas ganancias acumuladas no se borrarán.")) {
         await fetch("/api/reservas", { method: "DELETE" });
         historialCompleto = [];
-        renderizar([]);
+        renderizarTarjetas([]);
+
+        const resGanancias = await fetch("/api/ganancias");
+        const ganancias = await resGanancias.json();
+        renderizarResumen(ganancias);
     }
 }

@@ -1,41 +1,111 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const express    = require("express");
+const mongoose   = require("mongoose");
+require("dotenv").config();
 
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 3000;
-const ARCHIVO = path.join(__dirname, "reservas.json");
 
-// Middlewares
 app.use(express.json());
-app.use(express.static(__dirname)); // sirve index.html y todo lo demás
+app.use(express.static(__dirname));
 
-// Inicializar archivo si no existe
-if (!fs.existsSync(ARCHIVO)) {
-    fs.writeFileSync(ARCHIVO, "[]", "utf8");
+// ── CONEXIÓN A MONGODB ────────────────────────
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ Conectado a MongoDB Atlas"))
+    .catch(err => console.error("❌ Error conectando a MongoDB:", err));
+
+// ── MODELO RESERVA ────────────────────────────
+const reservaSchema = new mongoose.Schema({
+    fecha:         String,
+    hora:          String,
+    nombre:        String,
+    apellido:      String,
+    correo:        String,
+    telefono:      String,
+    pago:          String,
+    vehiculo:      String,
+    servicio:      String,
+    precio:        Number,
+    fechaRegistro: String,
+    origen:        String
+});
+
+const Reserva = mongoose.model("Reserva", reservaSchema);
+
+// ── MODELO GANANCIAS (documento único) ───────
+const gananciasSchema = new mongoose.Schema({
+    total:          { type: Number, default: 0 },
+    totalReservas:  { type: Number, default: 0 }
+});
+
+const Ganancias = mongoose.model("Ganancias", gananciasSchema);
+
+// Obtener o crear el documento de ganancias
+async function getGanancias() {
+    let g = await Ganancias.findOne();
+    if (!g) g = await Ganancias.create({ total: 0, totalReservas: 0 });
+    return g;
 }
 
-// ── GET /api/reservas → leer todas las reservas
-app.get("/api/reservas", (req, res) => {
-    const datos = JSON.parse(fs.readFileSync(ARCHIVO, "utf8"));
-    res.json(datos);
+// ── GET /api/reservas → obtener todas ────────
+app.get("/api/reservas", async (req, res) => {
+    try {
+        const reservas = await Reserva.find().sort({ _id: 1 });
+        res.json(reservas);
+    } catch (err) {
+        res.status(500).json({ error: "Error al obtener reservas" });
+    }
 });
 
-// ── POST /api/reservas → guardar una nueva reserva
-app.post("/api/reservas", (req, res) => {
-    const datos = JSON.parse(fs.readFileSync(ARCHIVO, "utf8"));
-    const nueva = { ...req.body, id: Date.now() };
-    datos.push(nueva);
-    fs.writeFileSync(ARCHIVO, JSON.stringify(datos, null, 2), "utf8");
-    res.json({ ok: true, reserva: nueva });
+// ── GET /api/ganancias → obtener total histórico
+app.get("/api/ganancias", async (req, res) => {
+    try {
+        const g = await getGanancias();
+        res.json(g);
+    } catch (err) {
+        res.status(500).json({ error: "Error al obtener ganancias" });
+    }
 });
 
-// ── DELETE /api/reservas → limpiar todas las reservas
-app.delete("/api/reservas", (req, res) => {
-    fs.writeFileSync(ARCHIVO, "[]", "utf8");
-    res.json({ ok: true });
+// ── POST /api/reservas → guardar nueva y sumar ganancias
+app.post("/api/reservas", async (req, res) => {
+    try {
+        const nueva = new Reserva(req.body);
+        await nueva.save();
+
+        // Sumar al total histórico
+        const precio = req.body.precio || 0;
+        await Ganancias.findOneAndUpdate(
+            {},
+            { $inc: { total: precio, totalReservas: 1 } },
+            { upsert: true }
+        );
+
+        res.json({ ok: true, reserva: nueva });
+    } catch (err) {
+        res.status(500).json({ error: "Error al guardar reserva" });
+    }
+});
+
+// ── DELETE /api/reservas/:id → eliminar una (NO resta ganancias)
+app.delete("/api/reservas/:id", async (req, res) => {
+    try {
+        await Reserva.findByIdAndDelete(req.params.id);
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: "Error al eliminar reserva" });
+    }
+});
+
+// ── DELETE /api/reservas → limpiar todas (NO resetea ganancias)
+app.delete("/api/reservas", async (req, res) => {
+    try {
+        await Reserva.deleteMany({});
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: "Error al limpiar reservas" });
+    }
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚗 Servidor corriendo en http://localhost:${PORT}`);
 });
