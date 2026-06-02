@@ -5,73 +5,6 @@ body {
     margin: 0;
 }
 
-/* ── LOGIN ────────────────────────────────────── */
-#loginBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #F1F5F9;
-}
-
-.login-card {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    width: 100%;
-    max-width: 360px;
-    text-align: center;
-}
-
-.login-card h2 { color: #1E3A8A; margin-bottom: 5px; }
-
-.login-card p {
-    color: #64748B;
-    margin-bottom: 20px;
-    font-size: 14px;
-}
-
-.login-card input {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border-radius: 8px;
-    border: 1px solid #CBD5E1;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.login-card button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 14px;
-    background: #1E3A8A;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.login-card button:hover { background: #163075; }
-
-.error-msg {
-    color: #EF4444;
-    font-size: 13px;
-    margin-top: 10px;
-    min-height: 18px;
-}
-
-.btn-volver-login {
-    background: #E2E8F0 !important;
-    color: #475569 !important;
-    margin-top: 8px;
-}
-
-.btn-volver-login:hover { background: #CBD5E1 !important; }
-
 /* ── DASHBOARD ────────────────────────────────── */
 .container {
     max-width: 860px;
@@ -88,7 +21,23 @@ body {
     margin-bottom: 20px;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .header-bar h2 { margin: 0; color: #1E3A8A; }
+
+.rol-badge {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+}
 
 .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -103,6 +52,9 @@ button {
 
 .btn-limpiar { background: #EF4444; color: white; }
 .btn-limpiar:hover { background: #DC2626; }
+
+.btn-usuarios { background: #7C3AED; color: white; }
+.btn-usuarios:hover { background: #6D28D9; }
 
 .btn-cerrar { background: #F59E0B; color: white; }
 .btn-cerrar:hover { background: #D97706; }
@@ -175,6 +127,15 @@ button {
 .nombre { font-weight: bold; color: #1E3A8A; font-size: 16px; }
 .precio { font-weight: bold; color: #16A34A; font-size: 18px; }
 
+.tag-servicio {
+    background: #DCFCE7;
+    color: #16A34A;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
 .card-body { padding: 12px 20px 8px; }
 
 .card-body p {
@@ -213,8 +174,219 @@ button {
     margin-top: 60px;
 }
 
+/* ── MODAL USUARIOS ───────────────────────────── */
+#modalUsuarios {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-box {
+    position: relative;
+    z-index: 1;
+    background: white;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    margin: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+}
+
+.modal-header h3 { margin: 0; color: #1E3A8A; }
+
+.modal-close {
+    background: #F1F5F9;
+    color: #475569;
+    border: none;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.modal-close:hover { background: #E2E8F0; }
+
+/* FORMULARIO */
+.modal-form {
+    padding: 20px 24px;
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.modal-form h4 {
+    margin: 0 0 14px;
+    color: #334155;
+    font-size: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.form-row input,
+.form-row select {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial;
+    background: white;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    outline: none;
+    border-color: #1E3A8A;
+}
+
+.error-msg {
+    color: #EF4444;
+    font-size: 13px;
+    min-height: 18px;
+    margin-bottom: 10px;
+}
+
+.form-actions { display: flex; gap: 8px; }
+
+.btn-guardar-usuario {
+    background: #1E3A8A;
+    color: white;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+}
+
+.btn-guardar-usuario:hover { background: #163075; }
+
+.btn-cancelar-form {
+    background: #E2E8F0;
+    color: #475569;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+}
+
+/* TABLA USUARIOS */
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabla-usuarios thead tr {
+    background: #F1F5F9;
+}
+
+.tabla-usuarios th {
+    padding: 10px 16px;
+    text-align: left;
+    color: #64748B;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+
+.tabla-usuarios td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #334155;
+}
+
+.tabla-usuarios tbody tr:hover { background: #F8FAFC; }
+
+.tabla-usuarios code {
+    background: #F1F5F9;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #1E3A8A;
+}
+
+.rol-pill {
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+}
+
+.acciones-col {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-edit {
+    background: #EFF6FF;
+    color: #1E3A8A;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 14px;
+}
+
+.btn-edit:hover { background: #DBEAFE; }
+
+.btn-del {
+    background: #FEF2F2;
+    color: #EF4444;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 14px;
+}
+
+.btn-del:hover { background: #FEE2E2; }
+
+.cargando {
+    text-align: center;
+    color: #94A3B8;
+    padding: 20px;
+}
+
+.vacio-small {
+    text-align: center;
+    color: #94A3B8;
+    font-size: 14px;
+    padding: 20px;
+}
+
 @media (max-width: 600px) {
     .header-bar { flex-direction: column; align-items: flex-start; }
     .resumen-card { flex-direction: column; gap: 15px; }
     .filtros { flex-direction: column; }
+    .modal-box { margin: 10px; }
 }

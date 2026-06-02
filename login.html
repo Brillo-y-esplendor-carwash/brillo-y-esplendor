@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión — Brillo y Esplendor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/login.css">
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div class="login-wrapper">
+
+        <div class="login-brand">
+            <div class="brand-icon">🚗</div>
+            <h1>Brillo y Esplendor</h1>
+            <p>Panel de gestión interna</p>
+        </div>
+
+        <div class="login-card">
+            <h2>Iniciar sesión</h2>
+
+            <div class="field">
+                <label>Usuario</label>
+                <input type="text" id="loginUser" placeholder="tu_usuario" autocomplete="username">
+            </div>
+
+            <div class="field">
+                <label>Contraseña</label>
+                <div class="pass-wrap">
+                    <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+                    <button class="toggle-pass" type="button" onclick="togglePass()" tabindex="-1">👁</button>
+                </div>
+            </div>
+
+            <p id="loginError" class="error-msg"></p>
+
+            <button class="btn-login" id="btnLogin" onclick="doLogin()">Entrar →</button>
+
+            <a class="link-volver" href="./index.html">← Volver al sitio</a>
+        </div>
+
+    </div>
+
+    <script src="src/js/login.js"></script>
+
+</body>
+</html>
