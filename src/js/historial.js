@@ -293,7 +293,7 @@ function editarUsuario(u) {
     document.getElementById("uUsername").value = u.username;
     document.getElementById("uPassword").value = "";
     document.getElementById("uRol").value = u.rol;
-    document.getElementById("uPassword").placeholder = "Nueva contraseña";
+    document.getElementById("uPassword").placeholder = "Nueva contraseña (Dejar vacío para no cambiar)";
 }
 
 function cancelarForm() {
