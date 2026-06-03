@@ -41,6 +41,7 @@ async function doLogin() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("rol", data.rol);
         localStorage.setItem("username", data.username);
+        localStorage.setItem("nombre", data.nombre);
 
         // Redirigir al historial (dashboard)
         window.location.href = "./historial.html";

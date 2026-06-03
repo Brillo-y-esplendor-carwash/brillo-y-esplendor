@@ -241,4 +241,14 @@ window.onload = function () {
             sendMessage();
         }
     });
+
+    // Mostrar usuario si hay sesión activa
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("nombre");
+
+    if (token && username) {
+        const navLogin = document.querySelector(".nav-login");
+        navLogin.textContent = "👤 " + username + " / Dashboard";
+        navLogin.href = "./historial.html";
+    }
 };
