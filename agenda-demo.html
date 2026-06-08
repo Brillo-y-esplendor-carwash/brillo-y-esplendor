@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>Agenda Inteligente — Brillo y Esplendor</title>
+    <link rel="stylesheet" href="src/css/historial.css">
+
+    <style>
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: #EFF6FF;
+            padding: 16px 20px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .demo-header h3 {
+            margin: 0;
+            color: #1E3A8A;
+        }
+
+        .demo-body {
+            padding: 18px 20px;
+        }
+
+        .horario-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .disponible {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
+        .ocupado {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .espera {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .alerta {
+            background: #FEF2F2;
+            border-left: 5px solid #EF4444;
+            padding: 14px;
+            border-radius: 10px;
+            color: #991B1B;
+            margin-bottom: 16px;
+        }
+
+        .notificacion {
+            background: #EFF6FF;
+            border-left: 5px solid #1E3A8A;
+            padding: 14px;
+            border-radius: 10px;
+            color: #1E3A8A;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .espera-item {
+            background: #F8FAFC;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .espera-item strong {
+            color: #1E3A8A;
+        }
+
+        .btn-demo {
+            background: #1E3A8A;
+            color: white;
+            margin-top: 10px;
+            padding: 10px 16px;
+        }
+
+        .btn-demo:hover {
+            background: #163075;
+        }
+
+        .nota-demo {
+            margin-top: 22px;
+            background: #F8FAFC;
+            border: 1px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 14px;
+            color: #334155;
+        }
+
+        @media (max-width: 700px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header-bar">
+            <div class="header-left">
+                <h2>📅 Agenda Inteligente</h2>
+                <span class="rol-badge" style="background:#0369A1;">Recepcionista</span>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-volver" onclick="window.location.href='./historial.html'">← Volver al dashboard</button>
+                <button class="btn-volver" onclick="window.location.href='./index.html'">Ir al sitio</button>
+            </div>
+        </div>
+
+        <div class="resumen-card">
+            <div>
+                <span>Fecha seleccionada</span>
+                <strong>15 de Agosto de 2026</strong>
+            </div>
+            <div>
+                <span>Turnos disponibles</span>
+                <strong>4</strong>
+            </div>
+            <div>
+                <span>Clientes en espera</span>
+                <strong>2</strong>
+            </div>
+        </div>
+
+        <div class="demo-grid">
+
+            <div class="demo-card">
+                <div class="demo-header">
+                    <h3>Disponibilidad por horario</h3>
+                </div>
+
+                <div class="demo-body">
+                    <div class="horario-row disponible">
+                        <span>09:00</span>
+                        <span>Disponible</span>
+                    </div>
+
+                    <div class="horario-row ocupado">
+                        <span>10:00</span>
+                        <span>Premium reservado</span>
+                    </div>
+
+                    <div class="horario-row ocupado">
+                        <span>11:00</span>
+                        <span>Completo reservado</span>
+                    </div>
+
+                    <div class="horario-row disponible">
+                        <span>12:00</span>
+                        <span>Disponible</span>
+                    </div>
+
+                    <div class="horario-row espera">
+                        <span>13:00</span>
+                        <span>Lista de espera activa</span>
+                    </div>
+
+                    <div class="horario-row disponible">
+                        <span>14:00</span>
+                        <span>Disponible</span>
+                    </div>
+
+                    <div class="horario-row ocupado">
+                        <span>15:00</span>
+                        <span>Básico reservado</span>
+                    </div>
+
+                    <div class="horario-row disponible">
+                        <span>16:00</span>
+                        <span>Disponible</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-header">
+                    <h3>Alertas y lista de espera</h3>
+                </div>
+
+                <div class="demo-body">
+                    <div class="alerta">
+                        <strong>⚠️ Conflicto detectado</strong>
+                        <p>El horario 10:00 ya se encuentra reservado para un servicio Premium. El sistema recomienda ofrecer 12:00 o ingresar al cliente a lista de espera.</p>
+                    </div>
+
+                    <h4>Lista de espera digital</h4>
+
+                    <div class="espera-item">
+                        <strong>1. Camila Torres</strong>
+                        <p>Horario solicitado: 13:00</p>
+                        <p>Servicio: Completo</p>
+                    </div>
+
+                    <div class="espera-item">
+                        <strong>2. Diego Herrera</strong>
+                        <p>Horario solicitado: 13:00</p>
+                        <p>Servicio: Premium</p>
+                    </div>
+
+                    <button class="btn-demo" onclick="notificarCliente()">🔔 Liberar horario y notificar</button>
+
+                    <div class="notificacion" id="notificacion">
+                        <strong>🔔 Notificación enviada</strong>
+                        <p>Se liberó un turno a las 12:00. El primer cliente en lista de espera fue notificado correctamente.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="nota-demo">
+            <strong>Nota del prototipo:</strong> Esta pantalla demuestra el flujo propuesto para disponibilidad visual, detección de conflictos de horario, lista de espera digital y notificación al cliente cuando se libera un turno.
+        </div>
+
+    </div>
+
+    <script>
+        function notificarCliente() {
+            document.getElementById("notificacion").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
