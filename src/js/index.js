@@ -23,6 +23,20 @@ function confirmarReserva() {
     let mes = document.getElementById("mes").value;
     let hora = document.getElementById("hora").value;
 
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+    const hoy = new Date();
+    const mesActual = hoy.getMonth();
+    const diaActual = hoy.getDate();
+    const mesSeleccionado = meses.indexOf(mes);
+    const diaSeleccionado = parseInt(dia);
+
+    if (mesSeleccionado < mesActual || (mesSeleccionado === mesActual && diaSeleccionado < diaActual)) {
+        alert("⚠️ No puedes reservar una fecha que ya pasó. Selecciona una fecha disponible.");
+        return;
+    }
+
     localStorage.setItem("dia", dia);
     localStorage.setItem("mes", mes);
     localStorage.setItem("hora", hora);
@@ -72,7 +86,11 @@ function restoreChat() {
 
 function sendMessage() {
     let input = document.getElementById("userInput");
-    let msg = input.value.toLowerCase().trim();
+    let msg = input.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
     if (msg === "") return;
 
     addMessage(input.value, "user");
@@ -120,10 +138,17 @@ function process(msg) {
         estadoChat = null;
     }
 
-    /* INICIAR RESERVA */
-    if (msg.includes("reserv") || msg.includes("agend") || msg.includes("quiero una hora")) {
-        estadoChat = "dia";
-        reply("Perfecto 👍 ¿Qué día quieres reservar?");
+    /* RESERVAS */
+    if (
+    msg.includes("reserv") ||
+    msg.includes("agend") ||
+    msg === "hora" ||
+    msg.includes("quiero una hora") ||
+    msg.includes("pedir hora") ||
+    msg.includes("tomar hora") ||
+    msg.includes("cita")
+) {
+        reply("📅 Para reservar una hora utiliza el apartado 'Reservar' disponible en el menú principal.");
         return;
     }
 
@@ -192,32 +217,196 @@ function process(msg) {
     }
 
     /* RESPUESTAS NORMALES */
-    if (msg.includes("hola") || msg.includes("buenas")) {
-        reply("¡Hola! 👋 Bienvenido a Brillo y Esplendor, ¿en qué puedo ayudarte?");
-        return;
-    }
-    if (msg.includes("horario") || msg.includes("abren") || msg.includes("atienden")) {
-        reply("Atendemos de lunes a sábado de 9:00 a 18:00 ⏰");
-        return;
-    }
-    if (msg.includes("precio") || msg.includes("cuanto")) {
-        reply("Claro 😊 ¿Tu vehículo es pequeño 🚗, mediano 🚙 o grande 🚐?");
-        return;
-    }
-    if (msg.includes("peque")) {
-        reply("Autos pequeños 🚗:\nBásico: $8.000\nPremium: $15.000\nCompleto: $30.000");
-        return;
-    }
-    if (msg.includes("mediano")) {
-        reply("Autos medianos 🚙:\nBásico: $10.000\nPremium: $18.000\nCompleto: $35.000");
-        return;
-    }
-    if (msg.includes("grande") || msg.includes("camioneta")) {
-        reply("Vehículos grandes 🚐:\nBásico: $12.000\nPremium: $22.000\nCompleto: $45.000");
+    if (
+    msg.includes("pago") ||
+    msg.includes("pagar") ||
+    msg.includes("tarjeta") ||
+    msg.includes("transferencia") ||
+    msg.includes("efectivo") ||
+    msg.includes("debito") ||
+    msg.includes("credito")
+) {
+        reply("💳 Aceptamos pago en local, tarjeta y transferencia. Puedes elegir el método de pago al realizar tu reserva.");
         return;
     }
 
-    reply("🤔 No entendí bien. Puedes preguntarme por precios, horarios o escribir 'reservar' para agendar una hora.");
+    if (msg.includes("punto") || msg.includes("puntos brillo") || msg.includes("canje") || msg.includes("canjear") || msg.includes("fidelizacion") || msg.includes("beneficio")) {
+        reply("⭐ Nuestro sistema Puntos Brillo permite acumular puntos por cada lavado y luego canjearlos por servicios.\n\nPuntos que ganas:\nBásico: Citycar 500 pts, Sedán 625 pts, SUV/Camioneta 750 pts.\nPremium: Citycar 1000 pts, Sedán 1200 pts, SUV/Camioneta 1450 pts.\nCompleto: Citycar 2000 pts, Sedán 2350 pts, SUV/Camioneta 3000 pts.\n\nPuntos necesarios para canjear:\nBásico: Citycar 4000 pts, Sedán 5000 pts, SUV/Camioneta 6000 pts.\nPremium: Citycar 7500 pts, Sedán 9000 pts, SUV/Camioneta 11000 pts.\nCompleto: Citycar 15000 pts, Sedán 17500 pts, SUV/Camioneta 22500 pts.");
+        return;
+    }
+
+    if (
+    msg.includes("descuento") ||
+    msg.includes("descuentos") ||
+    msg.includes("promo") ||
+    msg.includes("promocion") ||
+    msg.includes("promociones") ||
+    msg.includes("oferta") ||
+    msg.includes("cumple") ||
+    msg.includes("cumpleanos") ||
+    msg.includes("halloween") ||
+    msg.includes("navidad") ||
+    msg.includes("fiestas patrias") ||
+    msg.includes("semana santa")
+) {
+        reply("🎁 Promociones disponibles:\n\n🎂 Cumpleaños: 25% de descuento en servicio Premium o Completo, o doble puntaje durante el mes de cumpleaños.\n\n👨‍👩‍👧 Espacio Familiar: 15% de descuento en servicio Premium para embarazadas o familias con niños de 1 a 10 años, de lunes a miércoles.\n\n🐇 Semana Santa: bono de +300 Puntos Brillo extra.\n\n🇨🇱 Fiestas Patrias: 20% de descuento si traes tu auto caracterizado.\n\n🎃 Halloween: 15% de descuento si vienes disfrazado o tu auto trae decoración temática.\n\n🎄 Navidad: compra un lavado Completo y lleva un Básico al 50% para regalar.\n\n*Promociones no acumulables con otros descuentos ni con canjes de puntos.*");
+        return;
+    }
+
+
+    if (
+    msg.includes("contacto") ||
+    msg.includes("correo") ||
+    msg.includes("email") ||
+    msg.includes("mail") ||
+    msg.includes("telefono") ||
+    msg.includes("fono") ||
+    msg.includes("whatsapp")
+) {
+        reply("📩 Por ahora el contacto oficial disponible es contacto@brilloyesplendor.cl.");
+        return;
+    }
+    if (
+    msg.includes("hola") ||
+    msg.includes("buenas") ||
+    msg.includes("buen dia") ||
+    msg.includes("buenas tardes") ||
+    msg.includes("buenas noches") ||
+    msg.includes("ayuda")
+) {
+    reply("¡Hola! 👋 Bienvenido a Brillo y Esplendor.\n\nPuedes consultarme sobre:\n🚗 Precios\n🧼 Servicios\n⭐ Puntos Brillo\n🎁 Promociones y descuentos\n💳 Medios de pago\n📅 Reservas\n⏰ Horarios\n📩 Contacto");
+    return;
+}
+
+if (
+    msg.includes("horario") ||
+    msg.includes("horarios") ||
+    msg.includes("abren") ||
+    msg.includes("abierto") ||
+    msg.includes("cierran") ||
+    msg.includes("cerrado") ||
+    msg.includes("atienden") ||
+    msg.includes("atencion")
+) {
+    reply("⏰ Atendemos de lunes a sábado de 9:00 a 18:00.");
+    return;
+}
+    const pidePrecio = msg.includes("precio") || msg.includes("precios") || msg.includes("cuanto") || msg.includes("cuesta") || msg.includes("valor") || msg.includes("sale");
+
+    const esBasico = msg.includes("basico");
+    const esPremium = msg.includes("premium");
+    const esCompleto = msg.includes("completo");
+
+    const esCitycar = msg.includes("citycar") || msg.includes("peque") || msg.includes("auto chico") || msg.includes("vehiculo chico");
+    const esSedan = msg.includes("sedan") || msg.includes("mediano");
+    const esSuv = msg.includes("suv") || msg.includes("camioneta") || msg.includes("grande");
+
+    if (pidePrecio && esBasico && esCitycar) {
+        reply("💰 El lavado Básico para Citycar tiene un valor de $8.000.");
+        return;
+    }
+
+    if (pidePrecio && esBasico && esSedan) {
+        reply("💰 El lavado Básico para Sedán tiene un valor de $10.000.");
+        return;
+    }
+
+    if (pidePrecio && esBasico && esSuv) {
+        reply("💰 El lavado Básico para SUV/Camioneta tiene un valor de $12.000.");
+        return;
+    }
+
+    if (pidePrecio && esPremium && esCitycar) {
+        reply("💰 El lavado Premium para Citycar tiene un valor de $15.000.");
+        return;
+    }
+
+    if (pidePrecio && esPremium && esSedan) {
+        reply("💰 El lavado Premium para Sedán tiene un valor de $18.000.");
+        return;
+    }
+
+    if (pidePrecio && esPremium && esSuv) {
+        reply("💰 El lavado Premium para SUV/Camioneta tiene un valor de $22.000.");
+        return;
+    }
+
+    if (pidePrecio && esCompleto && esCitycar) {
+        reply("💰 El lavado Completo para Citycar tiene un valor de $30.000.");
+        return;
+    }
+
+    if (pidePrecio && esCompleto && esSedan) {
+        reply("💰 El lavado Completo para Sedán tiene un valor de $35.000.");
+        return;
+    }
+
+    if (pidePrecio && esCompleto && esSuv) {
+        reply("💰 El lavado Completo para SUV/Camioneta tiene un valor de $45.000.");
+        return;
+    }
+
+    if (pidePrecio && esCitycar) {
+        reply("🚗 Precios para Citycar:\nBásico: $8.000\nPremium: $15.000\nCompleto: $30.000");
+        return;
+    }
+
+    if (pidePrecio && esSedan) {
+        reply("🚙 Precios para Sedán:\nBásico: $10.000\nPremium: $18.000\nCompleto: $35.000");
+        return;
+    }
+
+    if (pidePrecio && esSuv) {
+        reply("🚐 Precios para SUV/Camioneta:\nBásico: $12.000\nPremium: $22.000\nCompleto: $45.000");
+        return;
+    }
+
+    if (pidePrecio && (esBasico || esPremium || esCompleto)) {
+        reply("Para darte el valor exacto, dime si tu vehículo es Citycar, Sedán o SUV/Camioneta.");
+        return;
+    }
+
+    if (pidePrecio) {
+        reply("Claro 😊 ¿Tu vehículo es Citycar 🚗, Sedán 🚙 o SUV/Camioneta 🚐?");
+        return;
+    }
+
+    if (esCitycar) {
+        reply("🚗 Precios para Citycar:\nBásico: $8.000\nPremium: $15.000\nCompleto: $30.000");
+        return;
+    }
+
+    if (esSedan) {
+        reply("🚙 Precios para Sedán:\nBásico: $10.000\nPremium: $18.000\nCompleto: $35.000");
+        return;
+    }
+
+    if (esSuv) {
+        reply("🚐 Precios para SUV/Camioneta:\nBásico: $12.000\nPremium: $22.000\nCompleto: $45.000");
+        return;
+    }
+        if (msg.includes("servicio") || msg.includes("servicios") || msg.includes("lavado") || msg.includes("basico") || msg.includes("premium") || msg.includes("completo")) {
+        reply("🧼 Tenemos tres servicios:\n\nBásico: lavado exterior simple.\nPremium: lavado exterior e interior con mayor detalle.\nCompleto: servicio más completo, ideal para una limpieza profunda del vehículo.");
+        return;
+    }
+
+if (
+    msg.includes("resena") ||
+    msg.includes("resenas") ||
+    msg.includes("reseña") ||
+    msg.includes("reseñas") ||
+    msg.includes("calificacion") ||
+    msg.includes("calificaciones") ||
+    msg.includes("opinion") ||
+    msg.includes("opiniones") ||
+    msg.includes("estrellas")
+) {
+    reply("⭐ Puedes ver reseñas y calificaciones de clientes en el apartado 'Reseñas y calificaciones' de la página principal.");
+    return;
+}
+
+
+    reply("🤔 No entendí bien tu consulta. Puedes preguntarme por precios, servicios, horarios, reservas, pagos, promociones, descuentos, Puntos Brillo o contacto.");
 }
 
 function addMessage(text, type) {
