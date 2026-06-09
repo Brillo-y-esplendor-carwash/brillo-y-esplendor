@@ -1,37 +1,51 @@
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: 'DM Sans', Arial, sans-serif;
     background: #F1F5F9;
+    overflow-x: hidden;
 }
 
 /* HEADER */
-header {
+.navbar-collapse {
     background: #1E3A8A;
-    padding: 10px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 5px;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+@media (min-width: 768px) {
+    .navbar-collapse {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+    }
 }
 
-.logo img {
-    height: 65px;
+.navbar .nav-link:hover {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: white !important;
 }
 
-.nav a {
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: bold;
+.navbar .nav-link:active {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
 }
 
-.nav a:hover {
-    color: #38BDF8;
+.nav-login {
+    background: rgba(56,189,248,0.2) !important;
+    border: 1px solid rgba(56,189,248,0.5) !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    margin-left: 8px;
+    transition: background 0.2s;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.nav-login:hover {
+    background: rgba(56,189,248,0.35) !important;
+    color: white !important;
 }
 
 /* Botón de login en la nav */
@@ -95,7 +109,8 @@ header {
     border-radius: 12px;
     font-size: 20px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 700;
+    font-family: 'DM Sans', Arial, sans-serif;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -111,11 +126,18 @@ header {
 }
 
 /* TABLE */
+.section-precios {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 20px;
+}
+
 table {
     margin: auto;
     border-collapse: collapse;
     width: 90%;
     max-width: 800px;
+    min-width: 400px;
     background: white;
     border-radius: 10px;
     overflow: hidden;
@@ -146,10 +168,45 @@ tr:nth-child(even) {
     background: white;
     padding: 20px;
     border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 340px;
+    text-align: center;
+    z-index: 9999;
+}
+
+#reservaBox button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', Arial, sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+#reservaBox button:hover {
+    filter: brightness(1.15);
+    transform: scale(1.03);
+}
+
+#reservaBox button:active {
+    transform: scale(0.97);
+}
+
+/* #reservaBox {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     width: 300px;
     text-align: center;
-}
+} */
 
 /* FOOTER */
 footer {
@@ -347,4 +404,133 @@ footer {
     .reviews-grid {
         grid-template-columns: 1fr;
     }
+}
+
+
+/* CALENDARIO */
+/* FLATPICKR PERSONALIZADO */
+.flatpickr-calendar {
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    font-family: 'DM Sans', Arial, sans-serif;
+    border: none;
+}
+
+.flatpickr-months {
+    background: white;
+    border-radius: 16px 16px 0 0;
+    padding: 8px 0;
+}
+
+.flatpickr-month {
+    color: #1E3A8A;
+}
+
+.flatpickr-current-month {
+    color: #1E3A8A;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.flatpickr-prev-month, .flatpickr-next-month {
+    color: #1E3A8A !important;
+    fill: #1E3A8A !important;
+}
+
+.flatpickr-weekday {
+    color: #64748B;
+    font-weight: 600;
+}
+
+.flatpickr-day {
+    border-radius: 8px;
+    color: #334155;
+    font-weight: 500;
+}
+
+.flatpickr-day:hover {
+    background: #EFF6FF;
+    border-color: #EFF6FF;
+    color: #1E3A8A;
+}
+
+.flatpickr-day.selected {
+    background: #1E3A8A;
+    border-color: #1E3A8A;
+    color: white;
+}
+
+.flatpickr-day.selected:hover {
+    background: #163075;
+    border-color: #163075;
+}
+
+.flatpickr-day.flatpickr-disabled {
+    color: #CBD5E1;
+}
+
+.flatpickr-day.today {
+    border-color: #38BDF8;
+    color: #0369A1;
+}
+
+.flatpickr-time {
+    border-top: 1px solid #E2E8F0;
+    font-family: 'DM Sans', Arial, sans-serif;
+}
+
+.flatpickr-time input {
+    color: #1E3A8A;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Botones */
+.flatpickr-time-separator {
+    color: #1E3A8A;
+    font-weight: 700;
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time input:focus {
+    background: #EFF6FF;
+    border-radius: 8px;
+}
+
+.flatpickr-time .arrowUp::after,
+.flatpickr-time .arrowDown::after {
+    border-width: 4px;
+}
+
+.numInputWrapper span {
+    border: none !important;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.numInputWrapper:hover span {
+    opacity: 1;
+}
+
+.numInputWrapper span.arrowUp {
+    background: #EFF6FF;
+    border-radius: 6px 6px 0 0;
+}
+
+.numInputWrapper span.arrowDown {
+    background: #EFF6FF;
+    border-radius: 0 0 6px 6px;
+}
+
+.numInputWrapper span:hover {
+    background: #DBEAFE !important;
+}
+
+.numInputWrapper span::after {
+    border-color: #1E3A8A transparent transparent !important;
+}
+
+.numInputWrapper span.arrowUp::after {
+    border-color: transparent transparent #1E3A8A !important;
 }

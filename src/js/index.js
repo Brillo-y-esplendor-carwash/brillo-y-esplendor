@@ -18,31 +18,42 @@ function actualizarDias() {
 function abrirReserva() { document.getElementById("reservaBox").style.display = "block"; }
 function cerrarReserva() { document.getElementById("reservaBox").style.display = "none"; }
 
+// NEW
+
 function confirmarReserva() {
-    let dia = document.getElementById("dia").value;
-    let mes = document.getElementById("mes").value;
-    let hora = document.getElementById("hora").value;
-
-    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
-        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-
-    const hoy = new Date();
-    const mesActual = hoy.getMonth();
-    const diaActual = hoy.getDate();
-    const mesSeleccionado = meses.indexOf(mes);
-    const diaSeleccionado = parseInt(dia);
-
-    if (mesSeleccionado < mesActual || (mesSeleccionado === mesActual && diaSeleccionado < diaActual)) {
-        alert("⚠️ No puedes reservar una fecha que ya pasó. Selecciona una fecha disponible.");
+    if (!localStorage.getItem("dia")) {
+        alert("❌ Selecciona una fecha y hora");
         return;
     }
-
-    localStorage.setItem("dia", dia);
-    localStorage.setItem("mes", mes);
-    localStorage.setItem("hora", hora);
-
     window.location.href = "reserva-vehiculo.html";
 }
+
+// OLD 
+// function confirmarReserva() {
+//     let dia = document.getElementById("dia").value;
+//     let mes = document.getElementById("mes").value;
+//     let hora = document.getElementById("hora").value;
+
+//     const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+//         "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+//     const hoy = new Date();
+//     const mesActual = hoy.getMonth();
+//     const diaActual = hoy.getDate();
+//     const mesSeleccionado = meses.indexOf(mes);
+//     const diaSeleccionado = parseInt(dia);
+
+//     if (mesSeleccionado < mesActual || (mesSeleccionado === mesActual && diaSeleccionado < diaActual)) {
+//         alert("⚠️ No puedes reservar una fecha que ya pasó. Selecciona una fecha disponible.");
+//         return;
+//     }
+
+//     localStorage.setItem("dia", dia);
+//     localStorage.setItem("mes", mes);
+//     localStorage.setItem("hora", hora);
+
+//     window.location.href = "reserva-vehiculo.html";
+// }
 
 function irA(id) {
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });

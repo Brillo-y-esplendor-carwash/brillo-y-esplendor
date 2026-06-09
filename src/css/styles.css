@@ -1,5 +1,5 @@
 body {
-    font-family: Arial;
+    font-family: 'DM Sans', Arial, sans-serif;
     background: #F1F5F9;
     text-align: center;
     padding: 40px;
@@ -7,6 +7,7 @@ body {
 
 .box {
     background: white;
+    font-family: 'DM Sans', Arial, sans-serif;
     padding: 30px;
     border-radius: 15px;
     max-width: 400px;
@@ -20,6 +21,7 @@ h2 {
 
 #fecha {
     margin-bottom: 20px;
+    font-family: 'DM Sans', Arial, sans-serif;
     font-weight: bold;
     color: #1E3A8A;
 }
@@ -31,6 +33,7 @@ select {
     margin: 8px 0;
     border-radius: 8px;
     border: 1px solid #ccc;
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 button {
@@ -42,6 +45,7 @@ button {
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 button:hover {

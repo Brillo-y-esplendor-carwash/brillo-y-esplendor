@@ -1,5 +1,5 @@
 body {
-    font-family: Arial;
+    font-family: 'DM Sans', Arial, sans-serif;
     background: #F1F5F9;
     text-align: center;
     padding: 40px;
@@ -12,6 +12,7 @@ body {
     max-width: 400px;
     margin: auto;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 h2 {
@@ -20,6 +21,7 @@ h2 {
 
 #fecha-resumen {
     color: #1E3A8A;
+    font-family: 'DM Sans', Arial, sans-serif;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -27,6 +29,7 @@ h2 {
 label {
     display: block;
     text-align: left;
+    font-family: 'DM Sans', Arial, sans-serif;
     font-weight: bold;
     margin: 12px 0 4px;
     color: #333;
@@ -38,6 +41,7 @@ select {
     border-radius: 8px;
     border: 1px solid #ccc;
     margin-bottom: 5px;
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 .precio-box {
@@ -68,6 +72,7 @@ button {
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
+    font-family: 'DM Sans', Arial, sans-serif;
     font-size: 16px;
 }
 
