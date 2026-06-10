@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: 'DM Sans', Arial, sans-serif !important;
     background: #F1F5F9;
     overflow-x: hidden;
 }
@@ -119,6 +119,7 @@ body {
     padding: 40px;
     text-align: center;
     transition: 0.3s;
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 .section:hover {
@@ -130,6 +131,7 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding: 0 20px;
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 table {
@@ -143,6 +145,7 @@ table {
     overflow: hidden;
     border: 2px solid #CBD5E1;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 
 th {

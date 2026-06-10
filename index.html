@@ -283,10 +283,16 @@
             <button onclick="minimizeChat()">X</button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Di 'Hola' para iniciar" aria-label="Di 'Hola' para iniciar" aria-describedby="button-addon2" id="userInput">
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="sendMessage()">Enviar</button>
+        </div>
+
+        <!-- <div class="chat-input">
             <input id="userInput">
             <button onclick="sendMessage()">Enviar</button>
-        </div>
+        </div> -->
     </div>
 
     <script src="src/js/index.js"></script>
