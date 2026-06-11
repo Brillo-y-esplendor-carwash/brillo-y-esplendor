@@ -4,107 +4,143 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Calificación — Brillo y Esplendor</title>
-    <link rel="stylesheet" href="src/css/historial.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/historial.css">
     <style>
-        .calificacion-card {
-            background: white;
-            border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        .calif-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: 0 2px 10px var(--shadow);
+            border: 1px solid var(--border);
             overflow: hidden;
             margin-top: 20px;
+            transition: background 0.3s;
         }
 
-        .calificacion-header {
-            background: #EFF6FF;
-            padding: 18px 22px;
-            border-bottom: 1px solid #E2E8F0;
+        .calif-card-header {
+            background: var(--header-card);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
         }
 
-        .calificacion-header h3 {
+        .calif-card-header h3 {
             margin: 0;
-            color: #1E3A8A;
+            color: var(--blue);
+            font-size: 17px;
         }
 
-        .calificacion-body {
-            padding: 22px;
-        }
+        .calif-card-body { padding: 24px; }
 
         .datos-servicio {
-            background: #F8FAFC;
+            background: var(--bg-card-alt);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 22px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            transition: background 0.3s;
         }
 
         .datos-servicio p {
             margin: 6px 0;
-            color: #334155;
+            color: var(--text-soft);
+            font-size: 14px;
         }
 
+        .datos-servicio p strong { color: var(--text); }
+
         .bloque-rating {
-            border-top: 1px solid #E2E8F0;
-            padding-top: 18px;
-            margin-top: 18px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 20px;
         }
 
         .bloque-rating h4 {
-            color: #1E3A8A;
-            margin-bottom: 8px;
+            color: var(--blue);
+            margin: 0 0 6px;
+            font-size: 15px;
+        }
+
+        .bloque-rating > p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0 0 12px;
         }
 
         .stars-select {
-            font-size: 34px;
-            color: #CBD5E1;
+            font-size: 36px;
+            color: var(--border);
             cursor: pointer;
             user-select: none;
             letter-spacing: 4px;
+            display: block;
+            margin-bottom: 8px;
         }
 
-        .stars-select span.activa {
-            color: #F59E0B;
-        }
+        .stars-select span.activa { color: #F59E0B; }
 
         textarea {
             width: 100%;
             min-height: 90px;
-            margin-top: 12px;
+            margin-top: 8px;
             padding: 12px;
-            border: 1px solid #CBD5E1;
+            border: 1px solid var(--border);
             border-radius: 10px;
             resize: vertical;
-            font-family: Arial;
+            font-family: 'DM Sans', Arial, sans-serif;
             font-size: 14px;
+            background: var(--input-bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s, border-color 0.2s;
         }
 
-        .btn-guardar-calificacion {
-            background: #1E3A8A;
+        textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+
+        textarea::placeholder { color: var(--text-muted); }
+
+        .btn-guardar {
+            background: var(--blue);
             color: white;
-            margin-top: 20px;
-            padding: 12px 20px;
+            margin-top: 24px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.18s, transform 0.1s;
         }
 
-        .btn-guardar-calificacion:hover {
-            background: #163075;
-        }
+        .btn-guardar:hover { background: var(--blue-hover); transform: translateY(-1px); }
+        .btn-guardar:active { transform: scale(0.97); }
 
         .mensaje-ok {
             display: none;
             margin-top: 18px;
             background: #DCFCE7;
             color: #166534;
-            padding: 12px;
+            padding: 14px 18px;
             border-radius: 10px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #86EFAC;
+        }
+
+        [data-theme="dark"] .mensaje-ok {
+            background: #14532D;
+            color: #86EFAC;
+            border-color: #166534;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
 
         <div class="header-bar">
@@ -112,19 +148,24 @@
                 <h2>⭐ Calificación del servicio</h2>
                 <span class="rol-badge" style="background:#1E3A8A;">Prototipo</span>
             </div>
-
             <div class="header-actions">
-                <button class="btn-volver" onclick="window.location.href='./historial.html'">← Volver al dashboard</button>
+                <button class="btn-volver" onclick="window.location.href='./historial.html'">← Dashboard</button>
                 <button class="btn-volver" onclick="window.location.href='./index.html'">Ir al sitio</button>
+                <div class="theme-toggle">
+                    <label class="toggle-switch" title="Modo oscuro">
+                        <input type="checkbox" id="themeToggle" onchange="toggleTheme(this)">
+                        <div class="toggle-track"></div>
+                        <div class="toggle-thumb" id="toggleThumb">☀️</div>
+                    </label>
+                </div>
             </div>
         </div>
 
-        <div class="calificacion-card">
-            <div class="calificacion-header">
+        <div class="calif-card">
+            <div class="calif-card-header">
                 <h3>Reserva finalizada</h3>
             </div>
-
-            <div class="calificacion-body">
+            <div class="calif-card-body">
 
                 <div class="datos-servicio">
                     <p><strong>Cliente:</strong> María González</p>
@@ -136,8 +177,7 @@
 
                 <div class="bloque-rating">
                     <h4>Cliente califica al autolavado</h4>
-                    <p>Evalúa la atención recibida, limpieza del vehículo y facilidad del proceso de reserva.</p>
-
+                    <p>Evalúa la atención recibida, limpieza del vehículo y facilidad de reserva.</p>
                     <div class="stars-select" data-rating="cliente">
                         <span onclick="seleccionarEstrellas(this, 1)">★</span>
                         <span onclick="seleccionarEstrellas(this, 2)">★</span>
@@ -145,14 +185,12 @@
                         <span onclick="seleccionarEstrellas(this, 4)">★</span>
                         <span onclick="seleccionarEstrellas(this, 5)">★</span>
                     </div>
-
                     <textarea placeholder="Comentario público del cliente sobre el servicio..."></textarea>
                 </div>
 
                 <div class="bloque-rating">
                     <h4>Autolavado califica al cliente</h4>
                     <p>Evaluación interna sobre puntualidad, trato y cumplimiento de la reserva.</p>
-
                     <div class="stars-select" data-rating="empresa">
                         <span onclick="seleccionarEstrellas(this, 1)">★</span>
                         <span onclick="seleccionarEstrellas(this, 2)">★</span>
@@ -160,11 +198,10 @@
                         <span onclick="seleccionarEstrellas(this, 4)">★</span>
                         <span onclick="seleccionarEstrellas(this, 5)">★</span>
                     </div>
-
                     <textarea placeholder="Comentario interno del personal sobre la atención al cliente..."></textarea>
                 </div>
 
-                <button class="btn-guardar-calificacion" onclick="guardarCalificacion()">💾 Guardar calificación</button>
+                <button class="btn-guardar" onclick="guardarCalificacion()">💾 Guardar calificación</button>
 
                 <div class="mensaje-ok" id="mensajeOk">
                     ✅ Calificación registrada correctamente. Esta pantalla demuestra el sistema de calificación mutua del prototipo.
@@ -179,20 +216,36 @@
         function seleccionarEstrellas(estrella, cantidad) {
             const contenedor = estrella.parentElement;
             const estrellas = contenedor.querySelectorAll("span");
-
             estrellas.forEach((e, index) => {
-                if (index < cantidad) {
-                    e.classList.add("activa");
-                } else {
-                    e.classList.remove("activa");
-                }
+                e.classList.toggle("activa", index < cantidad);
             });
         }
 
         function guardarCalificacion() {
             document.getElementById("mensajeOk").style.display = "block";
         }
-    </script>
 
+        function toggleTheme(checkbox) {
+            const thumb = document.getElementById("toggleThumb");
+            if (checkbox.checked) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                thumb.textContent = "🌙";
+                localStorage.setItem("theme", "dark");
+            } else {
+                document.documentElement.removeAttribute("data-theme");
+                thumb.textContent = "☀️";
+                localStorage.setItem("theme", "light");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+                document.getElementById("themeToggle").checked = true;
+                document.getElementById("toggleThumb").textContent = "🌙";
+            }
+        });
+    </script>
 </body>
 </html>

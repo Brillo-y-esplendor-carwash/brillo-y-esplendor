@@ -3,35 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Completar Reserva</title>
-    <link rel="stylesheet" href="src/css/styles.css">
+    <title>Completar Reserva — Brillo y Esplendor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/reserva.css">
 </head>
-
 <body>
 
-    <div class="box">
+    <div class="bg-grid"></div>
 
-        <h2>Completa tu reserva 🚗</h2>
+    <div class="reserva-wrapper">
 
-        <p id="fecha"></p>
-        <p id="resumen-servicio"></p>
+        <div class="reserva-brand">
+            <!-- <div class="brand-icon">✨</div> -->
+            <h1 class="brand-icon">Completa tu reserva</h1>
+            <!-- <p>Completa tu reserva</p> -->
+        </div>
 
-        <input id="nombre" placeholder="Nombre">
-        <input id="apellido" placeholder="Apellido">
-        <input id="correo" placeholder="Correo">
-        <input id="telefono" placeholder="Teléfono">
+        <div class="reserva-card">
 
-        <select id="pago">
-            <option>Pago en local</option>
-            <option>Transferencia</option>
-            <option>Tarjeta</option>
-        </select>
+            <p id="fecha" class="fecha-tag"></p>
+            <p id="resumen-servicio" class="resumen-tag"></p>
 
-        <button onclick="finalizar()">Finalizar reserva</button>
+            <div class="field">
+                <label>Nombre</label>
+                <input id="nombre" type="text" placeholder="Tu nombre">
+            </div>
 
+            <div class="field">
+                <label>Apellido</label>
+                <input id="apellido" type="text" placeholder="Tu apellido">
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label>Correo</label>
+                    <input id="correo" type="email" placeholder="correo@ejemplo.cl">
+                </div>
+                <div class="field">
+                    <label>Teléfono</label>
+                    <input id="telefono" type="tel" placeholder="+56 9 XXXX XXXX">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Método de pago</label>
+                <select id="pago">
+                    <option>Pago en local</option>
+                    <option>Transferencia</option>
+                    <option>Tarjeta</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="finalizar()">✅ Finalizar reserva</button>
+            <button class="btn-secondary" onclick="history.back()">← Volver</button>
+
+        </div>
     </div>
 
     <script src="src/js/reserva-datos.js"></script>

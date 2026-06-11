@@ -432,23 +432,22 @@ function addMessage(text, type) {
 
 function reply(t) { setTimeout(() => addMessage(t, "bot"), 500); }
 
-/* ── INIT ────────────────────────────────────── */
-window.onload = function () {
-    actualizarDias();
-
-    document.getElementById("userInput").addEventListener("keydown", function (e) {
+// Usar enter para enviar mensaje (INIT)
+document.getElementById("userInput").addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
             sendMessage();
         }
     });
 
-    // Mostrar usuario si hay sesión activa
+// Al final de index.js, fuera de window.onload
+document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem("token");
-    const name = localStorage.getItem("nombre");
-
-    if (token && name) {
-        const navLogin = document.querySelector(".nav-login");
-        navLogin.textContent = "👤 " + name + " / Dashboard";
-        navLogin.href = "./historial.html";
+    const nombre = localStorage.getItem("nombre");
+    if (token && nombre) {
+        const navLogin = document.querySelector("a.nav-login");
+        if (navLogin) {
+            navLogin.textContent = "👤 " + nombre + " / Dashboard";
+            navLogin.href = "./historial.html";
+        }
     }
-};
+});

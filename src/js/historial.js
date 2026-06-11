@@ -113,27 +113,40 @@ function renderizarResumen(ganancias) {
 }
 
 /* ── ELIMINAR RESERVA ────────────────────────── */
+// Variable para guardar el ID pendiente de confirmar
+let _idPendiente = null;
+
 async function reservaLista(id) {
     if (!p.borrar) return;
-    if (!confirm("¿Marcar esta reserva como lista y eliminarla?")) return;
 
-    try {
-        const res = await fetch(`/api/reservas/${id}`, { method: "DELETE", headers: authHeaders });
-        if (res.status === 401) { cerrarSesion(); return; }
-        if (!res.ok) throw new Error();
+    // Guardar el ID y abrir el modal Bootstrap
+    _idPendiente = id;
+    const modal = new bootstrap.Modal(document.getElementById("modalConfirmar"));
+    modal.show();
 
-        historialCompleto = historialCompleto.filter(r => r._id !== id);
+    // El botón de confirmar dentro del modal ejecuta la eliminación
+    document.getElementById("btnConfirmarLista").onclick = async function() {
+        modal.hide();
 
-        if (p.verGanancias) {
-            const resG = await fetch("/api/ganancias", { headers: authHeaders });
-            const ganancias = await resG.json();
-            renderizarResumen(ganancias);
+        try {
+            const res = await fetch(`/api/reservas/${_idPendiente}`, { method: "DELETE", headers: authHeaders });
+            if (res.status === 401) { cerrarSesion(); return; }
+            if (!res.ok) throw new Error();
+
+            historialCompleto = historialCompleto.filter(r => r._id !== _idPendiente);
+            _idPendiente = null;
+
+            if (p.verGanancias) {
+                const resG = await fetch("/api/ganancias", { headers: authHeaders });
+                const ganancias = await resG.json();
+                renderizarResumen(ganancias);
+            }
+            renderizarTarjetas(historialCompleto);
+
+        } catch (err) {
+            alert("❌ No se pudo eliminar la reserva.");
         }
-        renderizarTarjetas(historialCompleto);
-
-    } catch (err) {
-        alert("❌ No se pudo eliminar la reserva.");
-    }
+    };
 }
 
 /* ── RENDERIZAR TARJETAS ─────────────────────── */

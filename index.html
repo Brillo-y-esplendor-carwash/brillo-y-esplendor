@@ -5,301 +5,267 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Brillo y Esplendor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="src/css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
+    <link rel="stylesheet" href="src/css/index.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <nav class="navbar navbar-expand-md" style="background:#1E3A8A; padding: 4px 30px;">
-        <a class="navbar-brand" href="#">
-            <img src="src/assets/logo.png" style="height:60px;">
-        </a>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-md brill-nav">
+        <div class="container-xl">
+            <a class="navbar-brand" href="#">
+                <img src="src/assets/logo.png" style="height:54px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="border-color:rgba(255,255,255,0.4);">
+                <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <div class="navbar-nav ms-auto align-items-center gap-1">
+                    <a class="nav-link brill-link" href="#" onclick="irA('horario')">Horarios</a>
+                    <a class="nav-link brill-link" href="#" onclick="irA('precios')">Precios</a>
+                    <a class="nav-link brill-link" href="#" onclick="abrirReserva()">Reservar</a>
+                    <a class="nav-link brill-link" href="#" onclick="irA('nosotros')">¿Quiénes somos?</a>
+                    <a class="nav-link nav-login" href="./login.html">🔐 Iniciar sesión</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="border-color:rgba(255,255,255,0.5);">
-            <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navMenu">
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#" onclick="irA('horario')" style="color:white; font-weight:600;">Horarios</a>
-                <a class="nav-link" href="#" onclick="irA('precios')" style="color:white; font-weight:600;">Precios</a>
-                <a class="nav-link" href="#" onclick="abrirReserva()" style="color:white; font-weight:600;">Reservar</a>
-                <a class="nav-link" href="#" onclick="irA('nosotros')" style="color:white; font-weight:600;">¿Quiénes somos?</a>
-                <a class="nav-link nav-login" href="./login.html">🔐 Iniciar sesión</a>
+                    <!-- DARK MODE TOGGLE -->
+                    <div class="theme-toggle">
+                        <span class="theme-toggle-label" id="themeLabel">☀️</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="themeToggle" onchange="toggleTheme(this)">
+                            <div class="toggle-track"></div>
+                            <div class="toggle-thumb" id="toggleThumb">☀️</div>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- SLIDER -->
-    <div class="slider">
-        <img src="src/assets/slide1.jpg" class="slide active">
-        <img src="src/assets/slide2.jpg" class="slide">
-        <img src="src/assets/slide3.jpg" class="slide">
-    </div>
-
-    <div class="dots">
-        <span class="dot" onclick="showSlide(0)"></span>
-        <span class="dot" onclick="showSlide(1)"></span>
-        <span class="dot" onclick="showSlide(2)"></span>
-    </div>
-
-    <!-- BOTÓN RESERVA -->
-    <button class="reserva-btn" onclick="abrirReserva()">Reservar hora 🚗</button>
-
-    <!-- SECCIÓN INICIO -->
-    <div class="section">
-        <div style="background:#C7D2FE;padding:25px;border-radius:15px;max-width:600px;margin:auto;">
-            <h1>Brillo y Esplendor 🚗✨</h1>
-            <p>✨ Brillo y Esplendor, solución digital para el cuidado de tu vehículo</p>
+    <!-- HERO CAROUSEL -->
+    <div id="carouselBrillo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselBrillo" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carouselBrillo" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselBrillo" data-bs-slide-to="2"></button>
         </div>
-    </div>
-
-    <!-- PRECIOS -->
-    <div class="section" id="precios">
-        <h2>Precios</h2>
-        <div class="section-precios">
-            <table>
-                <tr>
-                    <th>Servicio</th>
-                    <th>Descripción</th>
-                    <th>🚗<br><small>(citycar)</small></th>
-                    <th>🚙<br><small>(sedán)</small></th>
-                    <th>🚐<br><small>(SUV / camioneta)</small></th>
-                </tr>
-                <tr><td>Básico</td><td>Lavado exterior</td><td>$8.000</td><td>$10.000</td><td>$12.000</td></tr>
-                <tr><td>Premium</td><td>Interior + exterior</td><td>$15.000</td><td>$18.000</td><td>$22.000</td></tr>
-                <tr><td>Completo</td><td>Detalle total</td><td>$30.000</td><td>$35.000</td><td>$45.000</td></tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- HORARIO -->
-    <div class="section" id="horario">
-        <div class="card-horario">
-            <h2>Horario</h2>
-            <p>Lunes a sábado 9:00 - 18:00</p>
-        </div>
-    </div>
-<!-- PUNTOS BRILLO -->
-<div class="section" id="puntos">
-    <div class="info-card">
-        <h2>⭐ Puntos Brillo</h2>
-        <p>Acumula puntos con cada lavado y canjéalos por servicios gratuitos.</p>
-
-        <p>🚗 Lavado Básico: 500 a 750 puntos</p>
-        <p>🚙 Lavado Premium: 1.000 a 1.450 puntos</p>
-        <p>🚐 Lavado Completo: 2.000 a 3.000 puntos</p>
-
-        <details>
-            <summary>Ver tabla completa de acumulación y canje</summary>
-
-            <h3>Puntos que ganas</h3>
-            <p>Básico Citycar: 500 pts<br>
-            Básico Sedán: 625 pts<br>
-            Básico SUV/Camioneta: 750 pts</p>
-
-            <p>Premium Citycar: 1.000 pts<br>
-            Premium Sedán: 1.200 pts<br>
-            Premium SUV/Camioneta: 1.450 pts</p>
-
-            <p>Completo Citycar: 2.000 pts<br>
-            Completo Sedán: 2.350 pts<br>
-            Completo SUV/Camioneta: 3.000 pts</p>
-
-            <h3>Puntos necesarios para canjear</h3>
-            <p>Básico Citycar: 4.000 pts<br>
-            Básico Sedán: 5.000 pts<br>
-            Básico SUV/Camioneta: 6.000 pts</p>
-
-            <p>Premium Citycar: 7.500 pts<br>
-            Premium Sedán: 9.000 pts<br>
-            Premium SUV/Camioneta: 11.000 pts</p>
-
-            <p>Completo Citycar: 15.000 pts<br>
-            Completo Sedán: 17.500 pts<br>
-            Completo SUV/Camioneta: 22.500 pts</p>
-        </details>
-    </div>
-</div>
-<!-- PROMOCIONES -->
-<div class="section" id="promociones">
-    <div class="info-card">
-        <h2>🎁 Promociones</h2>
-        <p>Conoce nuestras promociones especiales y beneficios disponibles durante el año.</p>
-
-        <details>
-            <summary>🎂 Cumpleaños — 25% de descuento o doble puntaje</summary>
-            <p>Durante el mes de tu cumpleaños puedes acceder a un 25% de descuento en cualquier servicio Premium o Completo, o elegir doble puntaje en tu visita. Válido para un lavado durante el mes presentando tu documento de identidad.</p>
-        </details>
-
-        <details>
-            <summary>👨‍👩‍👧 Espacio Familiar — 15% de descuento</summary>
-            <p>Promoción pensada para mujeres embarazadas y familias con niños de 1 a 10 años. Aplica al servicio Premium de lunes a miércoles, ideal para mantener el interior del vehículo limpio y cómodo para la familia.</p>
-        </details>
-
-        <details>
-            <summary>🐇 Semana Santa — +300 Puntos Brillo</summary>
-            <p>Durante Semana Santa, los clientes que laven su vehículo reciben un bono de 300 Puntos Brillo extra. Una opción ideal para limpiar el auto después de viajes o salidas de fin de semana largo.</p>
-        </details>
-
-        <details>
-            <summary>🇨🇱 Fiestas Patrias — 20% de descuento</summary>
-            <p>En septiembre puedes obtener un 20% de descuento si traes tu vehículo caracterizado con temática chilena, como banderas, adornos patrios o decoración dieciochera.</p>
-        </details>
-
-        <details>
-            <summary>🎃 Halloween — 15% de descuento</summary>
-            <p>Durante Halloween puedes acceder a un 15% de descuento si vienes disfrazado o si tu vehículo trae decoración temática. Una promoción pensada para hacer la experiencia más entretenida para toda la familia.</p>
-        </details>
-
-        <details>
-            <summary>🎄 Navidad — lavado Básico al 50%</summary>
-            <p>En diciembre, al comprar un servicio Completo puedes llevar un lavado Básico al 50% para regalar a un familiar o ser querido. Una forma práctica de regalar un auto limpio y reluciente.</p>
-        </details>
-
-        <p><strong>Importante:</strong> Las promociones no son acumulables con otros descuentos ni válidas para canjes de puntos.</p>
-    </div>
-</div>
-
-<!-- RESEÑAS -->
-<div class="section" id="resenas">
-    <div class="info-card">
-        <h2>⭐ Reseñas y calificaciones</h2>
-        <p>Conoce la opinión de algunos clientes sobre nuestro servicio.</p>
-
-        <div class="reviews-grid">
-            <div class="review-card">
-                <h3>María González</h3>
-                <p class="stars">★★★★★</p>
-                <p>“Reservé por la página y fue muy rápido. El auto quedó impecable.”</p>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="src/assets/slide1.jpg" class="d-block w-100 hero-img" alt="Slide 1">
+                <div class="carousel-caption hero-caption">
+                    <h1 class="hero-title">Tu auto, impecable.</h1>
+                    <p class="hero-sub">Lavado profesional con reserva online en segundos.</p>
+                    <button class="btn brill-btn-hero" onclick="abrirReserva()">Reservar hora 🚗</button>
+                </div>
             </div>
-
-            <div class="review-card">
-                <h3>Carlos Rojas</h3>
-                <p class="stars">★★★★★</p>
-                <p>“Muy buena atención. Me gustó poder ver los precios antes de reservar.”</p>
+            <div class="carousel-item">
+                <img src="src/assets/slide2.jpg" class="d-block w-100 hero-img" alt="Slide 2">
+                <div class="carousel-caption hero-caption">
+                    <h1 class="hero-title">Tres servicios. Un solo lugar.</h1>
+                    <p class="hero-sub">Básico, Premium o Completo — tú eliges.</p>
+                    <button class="btn brill-btn-hero" onclick="irA('precios')">Ver precios</button>
+                </div>
             </div>
-
-            <div class="review-card">
-                <h3>Patricia Muñoz</h3>
-                <p class="stars">★★★★☆</p>
-                <p>“El servicio Premium dejó el interior muy limpio. Volvería a usarlo.”</p>
-            </div>
-
-            <div class="review-card">
-                <h3>Jorge Salinas</h3>
-                <p class="stars">★★★★★</p>
-                <p>“La plataforma es fácil de usar y el proceso de reserva es claro.”</p>
-            </div>
-
-            <div class="review-card">
-                <h3>Valentina Herrera</h3>
-                <p class="stars">★★★★★</p>
-                <p>“Buen servicio y promociones convenientes. Me interesa usar Puntos Brillo.”</p>
+            <div class="carousel-item">
+                <img src="src/assets/slide3.jpg" class="d-block w-100 hero-img" alt="Slide 3">
+                <div class="carousel-caption hero-caption">
+                    <h1 class="hero-title">Acumula Puntos Brillo.</h1>
+                    <p class="hero-sub">Cada lavado te acerca a un servicio gratis.</p>
+                    <button class="btn brill-btn-hero" onclick="irA('puntos')">Saber más</button>
+                </div>
             </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBrillo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselBrillo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
-</div>
 
-    <!-- QUIÉNES SOMOS -->
-    <div class="section" id="nosotros" style="max-width:900px;margin:auto;">
-        <div class="card-nosotros">
-            <h2>¿Quiénes somos?</h2>
-            <p><strong>Brillo y Esplendor</strong> es un autolavado enfocado en ofrecer un servicio de alta calidad, combinando limpieza profesional con una atención cercana y confiable.</p>
-            <p>Nuestro compromiso es que cada vehículo quede en óptimas condiciones, cuidando cada detalle tanto en el interior como en el exterior.</p>
-            <p>Además, entendiendo la creciente necesidad de soluciones digitales, desarrollamos esta plataforma para facilitar la experiencia de nuestros clientes, permitiendo consultar servicios, precios y realizar reservas de manera rápida y sencilla.</p>
-            <p>✨ <strong>Brillo y Esplendor, solución digital para el cuidado de tu vehículo.</strong></p>
-        </div>
-    </div>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="brill-main">
+
+        <!-- FILA 1: PRECIOS + HORARIO -->
+        <section class="brill-section" id="precios">
+            <div class="container-xl">
+                <div class="row g-4 align-items-start">
+
+                    <div class="col-12 col-lg-8">
+                        <div class="brill-card">
+                            <div class="brill-card-title">Precios</div>
+                            <div class="table-responsive">
+                                <table class="brill-table w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Servicio</th>
+                                            <th>Descripción</th>
+                                            <th>🚗<br><small>citycar</small></th>
+                                            <th>🚙<br><small>sedán</small></th>
+                                            <th>🚐<br><small>SUV</small></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Básico</td><td>Lavado exterior</td><td>$8.000</td><td>$10.000</td><td>$12.000</td></tr>
+                                        <tr><td>Premium</td><td>Interior + exterior</td><td>$15.000</td><td>$18.000</td><td>$22.000</td></tr>
+                                        <tr><td>Completo</td><td>Detalle total</td><td>$30.000</td><td>$35.000</td><td>$45.000</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4" id="horario">
+                        <div class="brill-card brill-card-teal h-100 text-center">
+                            <div class="brill-card-title">Horario</div>
+                            <div class="horario-icon">🕘</div>
+                            <p class="horario-dias">Lunes a sábado</p>
+                            <p class="horario-horas">9:00 — 18:00</p>
+                            <button class="btn brill-btn-primary mt-3" onclick="abrirReserva()">Reservar ahora</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FILA 2: PUNTOS BRILLO + PROMOCIONES -->
+        <section class="brill-section" id="puntos">
+            <div class="container-xl">
+                <div class="row g-4 align-items-start">
+
+                    <div class="col-12 col-lg-6">
+                        <div class="brill-card h-100">
+                            <div class="brill-card-title">⭐ Puntos Brillo</div>
+                            <p class="text-muted mb-3">Acumula puntos con cada lavado y canjéalos por servicios gratuitos.</p>
+                            <div class="puntos-grid">
+                                <div class="puntos-item">🚗 Básico<span>500 – 750 pts</span></div>
+                                <div class="puntos-item">🚙 Premium<span>1.000 – 1.450 pts</span></div>
+                                <div class="puntos-item">🚐 Completo<span>2.000 – 3.000 pts</span></div>
+                            </div>
+                            <details class="brill-details mt-3">
+                                <summary>Ver tabla completa de acumulación y canje</summary>
+                                <div class="details-body">
+                                    <strong>Puntos que ganas</strong>
+                                    <p>Básico Citycar: 500 pts · Sedán: 625 pts · SUV: 750 pts</p>
+                                    <p>Premium Citycar: 1.000 pts · Sedán: 1.200 pts · SUV: 1.450 pts</p>
+                                    <p>Completo Citycar: 2.000 pts · Sedán: 2.350 pts · SUV: 3.000 pts</p>
+                                    <strong>Puntos para canjear</strong>
+                                    <p>Básico Citycar: 4.000 pts · Sedán: 5.000 pts · SUV: 6.000 pts</p>
+                                    <p>Premium Citycar: 7.500 pts · Sedán: 9.000 pts · SUV: 11.000 pts</p>
+                                    <p>Completo Citycar: 15.000 pts · Sedán: 17.500 pts · SUV: 22.500 pts</p>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6" id="promociones">
+                        <div class="brill-card h-100">
+                            <div class="brill-card-title">🎁 Promociones</div>
+                            <p class="text-muted mb-3">Beneficios especiales durante el año.</p>
+                            <details class="brill-details"><summary>🎂 Cumpleaños — 25% dto. o doble puntaje</summary><div class="details-body"><p>Durante el mes de tu cumpleaños, 25% de descuento en Premium o Completo, o doble puntaje. Presenta tu documento de identidad.</p></div></details>
+                            <details class="brill-details"><summary>👨‍👩‍👧 Espacio Familiar — 15% dto.</summary><div class="details-body"><p>Para embarazadas y familias con niños de 1 a 10 años. Aplica en Premium de lunes a miércoles.</p></div></details>
+                            <details class="brill-details"><summary>🐇 Semana Santa — +300 Puntos Brillo</summary><div class="details-body"><p>Bono de 300 puntos extra durante Semana Santa. Ideal tras viajes de fin de semana largo.</p></div></details>
+                            <details class="brill-details"><summary>🇨🇱 Fiestas Patrias — 20% dto.</summary><div class="details-body"><p>20% de descuento si traes tu vehículo con temática chilena en septiembre.</p></div></details>
+                            <details class="brill-details"><summary>🎃 Halloween — 15% dto.</summary><div class="details-body"><p>15% de descuento si vienes disfrazado o con decoración temática.</p></div></details>
+                            <details class="brill-details"><summary>🎄 Navidad — Básico al 50%</summary><div class="details-body"><p>Al comprar un Completo, lleva un Básico al 50% para regalar.</p></div></details>
+                            <p class="mt-3 mb-0" style="font-size:13px; color:#64748B;"><strong>Importante:</strong> Promociones no acumulables ni válidas para canjes.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FILA 3: RESEÑAS -->
+        <section class="brill-section" id="resenas">
+            <div class="container-xl">
+                <div class="brill-card">
+                    <div class="brill-card-title text-center">⭐ Reseñas</div>
+                    <p class="text-center text-muted mb-4">Lo que dicen nuestros clientes.</p>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4"><div class="review-card"><h6>María González</h6><p class="stars">★★★★★</p><p>"Reservé por la página y fue muy rápido. El auto quedó impecable."</p></div></div>
+                        <div class="col-12 col-md-4"><div class="review-card"><h6>Carlos Rojas</h6><p class="stars">★★★★★</p><p>"Muy buena atención. Me gustó poder ver los precios antes de reservar."</p></div></div>
+                        <div class="col-12 col-md-4"><div class="review-card"><h6>Patricia Muñoz</h6><p class="stars">★★★★☆</p><p>"El servicio Premium dejó el interior muy limpio. Volvería a usarlo."</p></div></div>
+                        <div class="col-12 col-md-4"><div class="review-card"><h6>Jorge Salinas</h6><p class="stars">★★★★★</p><p>"La plataforma es fácil de usar y el proceso de reserva es claro."</p></div></div>
+                        <div class="col-12 col-md-4"><div class="review-card"><h6>Valentina Herrera</h6><p class="stars">★★★★★</p><p>"Buen servicio y promociones convenientes. Me interesa usar Puntos Brillo."</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILA 4: QUIÉNES SOMOS -->
+        <section class="brill-section" id="nosotros">
+            <div class="container-xl">
+                <div class="brill-card brill-card-nosotros">
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-md-2 text-center">
+                            <div style="font-size:64px;">🚗</div>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <div class="brill-card-title">¿Quiénes somos?</div>
+                            <p><strong>Brillo y Esplendor</strong> es un autolavado enfocado en ofrecer un servicio de alta calidad, combinando limpieza profesional con una atención cercana y confiable.</p>
+                            <p>Nuestro compromiso es que cada vehículo quede en óptimas condiciones. Desarrollamos esta plataforma para facilitar la experiencia de nuestros clientes: consulta servicios, precios y reserva en segundos.</p>
+                            <p class="mb-0">✨ <strong>Brillo y Esplendor, solución digital para el cuidado de tu vehículo.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- FOOTER -->
-    <footer>
-        <p>contacto@brilloyesplendor.cl</p>
-        <p>© 2026 Brillo y Esplendor</p>
+    <footer class="brill-footer">
+        <div class="container-xl">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6 text-center text-md-start">
+                    <img src="src/assets/logo.png" style="height:40px; opacity:0.85;" class="mb-2">
+                    <p class="mb-0 footer-text">contacto@brilloyesplendor.cl</p>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <p class="mb-0 footer-text">© 2026 Brillo y Esplendor</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <!-- RESERVA BOX -->
-     <div id="reservaBox">
+    <div id="reservaBox">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h3 style="margin:0;">Reservar hora 🚗</h3>
-            <button onclick="cerrarReserva()" style="background:red;color:white;border:none;border-radius:8px;padding:5px 10px;">X</button>
+            <h3 style="margin:0; font-size:18px;">Reservar hora 🚗</h3>
+            <button onclick="cerrarReserva()" class="modal-close">✕</button>
         </div>
-
         <div id="calendarioInline"></div>
-
         <div style="display:flex; gap:10px; margin-top:12px;">
             <button onclick="confirmarReserva()" style="flex:1; background:#1E3A8A; color:white;">Confirmar</button>
             <button onclick="cerrarReserva()" style="flex:1; background:#94A3B8; color:white;">Cancelar</button>
         </div>
     </div>
 
-    <!-- <div id="reservaBox">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h3>Reservar hora 🚗</h3>
-            <button onclick="cerrarReserva()" style="background:red;color:white;border:none;border-radius:8px;padding:5px 10px;">X</button>
-        </div>
-
-        <p><strong>Selecciona fecha:</strong></p>
-        <input type="text" id="fechaPicker" placeholder="Selecciona día y hora" readonly style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:15px; cursor:pointer;">
-        <p><strong>Selecciona fecha:</strong></p>
-
-        <div style="display:flex; gap:10px; justify-content:center;">
-            <select id="dia"></select>
-
-            <select id="mes" onchange="actualizarDias()">
-                <option>Enero</option><option>Febrero</option><option>Marzo</option>
-                <option>Abril</option><option>Mayo</option><option>Junio</option>
-                <option>Julio</option><option>Agosto</option><option>Septiembre</option>
-                <option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
-            </select>
-
-            <select id="hora">
-                <option>09:00</option><option>10:00</option><option>11:00</option>
-                <option>12:00</option><option>13:00</option><option>14:00</option>
-                <option>15:00</option><option>16:00</option><option>17:00</option>
-                <option>18:00</option>
-            </select>
-        </div>
-
-        <br>
-        <button onclick="confirmarReserva()">Confirmar</button>
-        <button onclick="cerrarReserva()">Cancelar</button>
-    </div> -->
-
     <!-- CHAT -->
     <div class="chat-small" onclick="openChat()">¿Necesitas ayuda?</div>
     <div class="chat-bubble-icon" onclick="restoreChat()">💬</div>
 
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">
-            <span>Asistente Virtual</span>
-            <button onclick="minimizeChat()">X</button>
+    <div class="chat-box shadow rounded-4" id="chatBox">
+        <div class="chat-header rounded-top-4" style="background:#1E3A8A; color:white; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:600;">Asistente Virtual</span>
+            <button onclick="minimizeChat()" class="btn-close btn-close-white" style="font-size:12px;"></button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
-
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Di 'Hola' para iniciar" aria-label="Di 'Hola' para iniciar" aria-describedby="button-addon2" id="userInput">
-            <button class="btn btn-primary" type="button" id="button-addon2" onclick="sendMessage()">Enviar</button>
+        <div class="input-group p-2">
+            <input type="text" class="form-control rounded-3" placeholder="Di 'Hola' para iniciar" id="userInput">
+            <button class="btn btn-primary ms-2 rounded-3" type="button" onclick="sendMessage()">Enviar</button>
         </div>
-
-        <!-- <div class="chat-input">
-            <input id="userInput">
-            <button onclick="sendMessage()">Enviar</button>
-        </div> -->
     </div>
 
     <script src="src/js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-
-    <!-- CALENDARIO -->
     <script>
         flatpickr("#calendarioInline", {
             locale: "es",
@@ -310,7 +276,6 @@
             minDate: "today",
             inline: true,
             time_24hr: true,
-            noCalendar: false,
             disable: [function(date) { return date.getDay() === 0; }],
             onChange: function(selectedDates) {
                 const d = selectedDates[0];
@@ -320,8 +285,32 @@
             }
         });
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+    <script>
+        // Dark mode
+        function toggleTheme(checkbox) {
+            const thumb = document.getElementById("toggleThumb");
+            if (checkbox.checked) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                thumb.textContent = "🌙";
+                localStorage.setItem("theme", "dark");
+            } else {
+                document.documentElement.removeAttribute("data-theme");
+                thumb.textContent = "☀️";
+                localStorage.setItem("theme", "light");
+            }
+        }
+
+        // Recordar preferencia al cargar
+        document.addEventListener("DOMContentLoaded", function() {
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+                document.getElementById("themeToggle").checked = true;
+                document.getElementById("toggleThumb").textContent = "🌙";
+            }
+        });
+    </script>
 </body>
 </html>

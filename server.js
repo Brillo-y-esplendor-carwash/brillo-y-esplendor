@@ -248,6 +248,15 @@ app.post("/api/reservas", async (req, res) => {
 // DELETE /api/reservas/:id — dueño y recepcionista
 app.delete("/api/reservas/:id", authMiddleware(["dueno","recepcionista"]), async (req, res) => {
     try {
+        const reserva = await Reserva.findById(req.params.id);
+        if (!reserva) return res.status(404).json({ error: "Reserva no encontrada" });
+
+        await Ganancias.findOneAndUpdate(
+            {},
+            { $inc: { totalReservas: 1, total: reserva.precio || 0 } },
+            { upsert: true }
+        );
+
         await Reserva.findByIdAndDelete(req.params.id);
         res.json({ ok: true });
     } catch (err) {

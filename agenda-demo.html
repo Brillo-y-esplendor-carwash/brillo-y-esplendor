@@ -4,127 +4,134 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Agenda Inteligente — Brillo y Esplendor</title>
-    <link rel="stylesheet" href="src/css/historial.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/historial.css">
     <style>
-        .demo-grid {
+        .agenda-grid {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
-            gap: 20px;
+            gap: 16px;
             margin-top: 20px;
         }
 
-        .demo-card {
-            background: white;
+        .agenda-card {
+            background: var(--bg-card);
             border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px var(--shadow);
+            border: 1px solid var(--border);
             overflow: hidden;
+            transition: background 0.3s, border-color 0.3s;
         }
 
-        .demo-header {
-            background: #EFF6FF;
-            padding: 16px 20px;
-            border-bottom: 1px solid #E2E8F0;
+        .agenda-card-header {
+            background: var(--header-card);
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
         }
 
-        .demo-header h3 {
+        .agenda-card-header h3 {
             margin: 0;
-            color: #1E3A8A;
+            color: var(--blue);
+            font-size: 16px;
         }
 
-        .demo-body {
-            padding: 18px 20px;
-        }
+        .agenda-card-body { padding: 16px 20px; }
 
         .horario-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
+            padding: 10px 14px;
             margin-bottom: 8px;
             border-radius: 10px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .disponible {
-            background: #DCFCE7;
-            color: #166534;
-        }
+        .disponible { background: #DCFCE7; color: #166534; }
+        .ocupado    { background: #FEE2E2; color: #991B1B; }
+        .espera     { background: #FEF3C7; color: #92400E; }
 
-        .ocupado {
-            background: #FEE2E2;
-            color: #991B1B;
-        }
-
-        .espera {
-            background: #FEF3C7;
-            color: #92400E;
-        }
+        [data-theme="dark"] .disponible { background: #14532D; color: #86EFAC; }
+        [data-theme="dark"] .ocupado    { background: #450A0A; color: #FCA5A5; }
+        [data-theme="dark"] .espera     { background: #451A03; color: #FCD34D; }
 
         .alerta {
             background: #FEF2F2;
-            border-left: 5px solid #EF4444;
+            border-left: 4px solid #EF4444;
             padding: 14px;
             border-radius: 10px;
             color: #991B1B;
             margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        [data-theme="dark"] .alerta {
+            background: #450A0A;
+            color: #FCA5A5;
+            border-left-color: #EF4444;
         }
 
         .notificacion {
-            background: #EFF6FF;
-            border-left: 5px solid #1E3A8A;
+            background: var(--blue-light);
+            border-left: 4px solid var(--blue);
             padding: 14px;
             border-radius: 10px;
-            color: #1E3A8A;
-            margin-top: 16px;
+            color: var(--blue);
+            margin-top: 14px;
             display: none;
+            font-size: 14px;
         }
 
         .espera-item {
-            background: #F8FAFC;
+            background: var(--bg-card-alt);
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 10px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            transition: background 0.3s;
         }
 
-        .espera-item strong {
-            color: #1E3A8A;
-        }
+        .espera-item strong { color: var(--blue); }
+        .espera-item p { margin: 4px 0; color: var(--text-soft); }
 
         .btn-demo {
-            background: #1E3A8A;
+            background: var(--blue);
             color: white;
             margin-top: 10px;
             padding: 10px 16px;
+            border-radius: 8px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.18s;
         }
 
-        .btn-demo:hover {
-            background: #163075;
-        }
+        .btn-demo:hover { background: var(--blue-hover); }
 
         .nota-demo {
-            margin-top: 22px;
-            background: #F8FAFC;
-            border: 1px solid #CBD5E1;
+            margin-top: 20px;
+            background: var(--bg-card-alt);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 14px;
-            color: #334155;
+            padding: 14px 18px;
+            color: var(--text-soft);
+            font-size: 14px;
+            transition: background 0.3s;
         }
 
         @media (max-width: 700px) {
-            .demo-grid {
-                grid-template-columns: 1fr;
-            }
+            .agenda-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
 
         <div class="header-bar">
@@ -132,17 +139,23 @@
                 <h2>📅 Agenda Inteligente</h2>
                 <span class="rol-badge" style="background:#0369A1;">Recepcionista</span>
             </div>
-
             <div class="header-actions">
-                <button class="btn-volver" onclick="window.location.href='./historial.html'">← Volver al dashboard</button>
+                <button class="btn-volver" onclick="window.location.href='./historial.html'">← Dashboard</button>
                 <button class="btn-volver" onclick="window.location.href='./index.html'">Ir al sitio</button>
+                <div class="theme-toggle">
+                    <label class="toggle-switch" title="Modo oscuro">
+                        <input type="checkbox" id="themeToggle" onchange="toggleTheme(this)">
+                        <div class="toggle-track"></div>
+                        <div class="toggle-thumb" id="toggleThumb">☀️</div>
+                    </label>
+                </div>
             </div>
         </div>
 
         <div class="resumen-card">
             <div>
                 <span>Fecha seleccionada</span>
-                <strong>15 de Agosto de 2026</strong>
+                <strong>15 de Agosto</strong>
             </div>
             <div>
                 <span>Turnos disponibles</span>
@@ -154,86 +167,50 @@
             </div>
         </div>
 
-        <div class="demo-grid">
+        <div class="agenda-grid">
 
-            <div class="demo-card">
-                <div class="demo-header">
-                    <h3>Disponibilidad por horario</h3>
+            <div class="agenda-card">
+                <div class="agenda-card-header">
+                    <h3>🕐 Disponibilidad por horario</h3>
                 </div>
-
-                <div class="demo-body">
-                    <div class="horario-row disponible">
-                        <span>09:00</span>
-                        <span>Disponible</span>
-                    </div>
-
-                    <div class="horario-row ocupado">
-                        <span>10:00</span>
-                        <span>Premium reservado</span>
-                    </div>
-
-                    <div class="horario-row ocupado">
-                        <span>11:00</span>
-                        <span>Completo reservado</span>
-                    </div>
-
-                    <div class="horario-row disponible">
-                        <span>12:00</span>
-                        <span>Disponible</span>
-                    </div>
-
-                    <div class="horario-row espera">
-                        <span>13:00</span>
-                        <span>Lista de espera activa</span>
-                    </div>
-
-                    <div class="horario-row disponible">
-                        <span>14:00</span>
-                        <span>Disponible</span>
-                    </div>
-
-                    <div class="horario-row ocupado">
-                        <span>15:00</span>
-                        <span>Básico reservado</span>
-                    </div>
-
-                    <div class="horario-row disponible">
-                        <span>16:00</span>
-                        <span>Disponible</span>
-                    </div>
+                <div class="agenda-card-body">
+                    <div class="horario-row disponible"><span>09:00</span><span>✅ Disponible</span></div>
+                    <div class="horario-row ocupado"><span>10:00</span><span>🔴 Premium reservado</span></div>
+                    <div class="horario-row ocupado"><span>11:00</span><span>🔴 Completo reservado</span></div>
+                    <div class="horario-row disponible"><span>12:00</span><span>✅ Disponible</span></div>
+                    <div class="horario-row espera"><span>13:00</span><span>⏳ Lista de espera</span></div>
+                    <div class="horario-row disponible"><span>14:00</span><span>✅ Disponible</span></div>
+                    <div class="horario-row ocupado"><span>15:00</span><span>🔴 Básico reservado</span></div>
+                    <div class="horario-row disponible"><span>16:00</span><span>✅ Disponible</span></div>
                 </div>
             </div>
 
-            <div class="demo-card">
-                <div class="demo-header">
-                    <h3>Alertas y lista de espera</h3>
+            <div class="agenda-card">
+                <div class="agenda-card-header">
+                    <h3>⚠️ Alertas y lista de espera</h3>
                 </div>
-
-                <div class="demo-body">
+                <div class="agenda-card-body">
                     <div class="alerta">
                         <strong>⚠️ Conflicto detectado</strong>
-                        <p>El horario 10:00 ya se encuentra reservado para un servicio Premium. El sistema recomienda ofrecer 12:00 o ingresar al cliente a lista de espera.</p>
+                        <p style="margin:6px 0 0;">El horario 10:00 está reservado para Premium. Se recomienda ofrecer 12:00 o lista de espera.</p>
                     </div>
 
-                    <h4>Lista de espera digital</h4>
+                    <p style="font-weight:700; color:var(--blue); margin:14px 0 10px;">Lista de espera digital</p>
 
                     <div class="espera-item">
                         <strong>1. Camila Torres</strong>
-                        <p>Horario solicitado: 13:00</p>
-                        <p>Servicio: Completo</p>
+                        <p>Horario: 13:00 · Servicio: Completo</p>
                     </div>
-
                     <div class="espera-item">
                         <strong>2. Diego Herrera</strong>
-                        <p>Horario solicitado: 13:00</p>
-                        <p>Servicio: Premium</p>
+                        <p>Horario: 13:00 · Servicio: Premium</p>
                     </div>
 
-                    <button class="btn-demo" onclick="notificarCliente()">🔔 Liberar horario y notificar</button>
+                    <button class="btn-demo" onclick="notificarCliente()">🔔 Liberar y notificar</button>
 
                     <div class="notificacion" id="notificacion">
                         <strong>🔔 Notificación enviada</strong>
-                        <p>Se liberó un turno a las 12:00. El primer cliente en lista de espera fue notificado correctamente.</p>
+                        <p style="margin:4px 0 0;">Turno 12:00 liberado. El primer cliente fue notificado.</p>
                     </div>
                 </div>
             </div>
@@ -250,7 +227,28 @@
         function notificarCliente() {
             document.getElementById("notificacion").style.display = "block";
         }
-    </script>
 
+        function toggleTheme(checkbox) {
+            const thumb = document.getElementById("toggleThumb");
+            if (checkbox.checked) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                thumb.textContent = "🌙";
+                localStorage.setItem("theme", "dark");
+            } else {
+                document.documentElement.removeAttribute("data-theme");
+                thumb.textContent = "☀️";
+                localStorage.setItem("theme", "light");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+                document.getElementById("themeToggle").checked = true;
+                document.getElementById("toggleThumb").textContent = "🌙";
+            }
+        });
+    </script>
 </body>
 </html>
